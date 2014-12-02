@@ -13,8 +13,34 @@ class Dashboards extends CI_Controller {
 	}
 
 	public function signin() {
+		$display['errors'] = $this->session->flashdata('errors');
 		$this->load->view('templates/header');
-		$this->load->view('signin');
+		$this->load->view('signin', $display);
+	}
+
+	public function signin_user() {
+		$post = $this->input->post();
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+		$this->form_validation->set_rules('password', 'Password', 'required');
+		if($this->form_validation->run() == FALSE) {
+			$this->view_data['errors'] = validation_errors();
+			$this->session->set_flashdata('errors', $this->view_data['errors']);
+			redirect('signin');
+		} else {
+			$this->load->model('DashboardModel');
+			$email = $post['email'];
+			$password = $post['password'];
+			$user = $this->DashboardModel->login_db($email);
+			if ($user != NULL) {
+				if(crypt($password, $user['password']) == $user['password']) {
+					$this->session->set_userdata('id', $user['id']);
+					$this->session->set_userdata('loggedin', TRUE);
+					redirect('dashboard');
+				}
+			}
+			$this->session->set_flashdata('errors', 'The email and password combination is not valid');
+			redirect('signin');
+		}
 	}
 
 	public function logout() {
@@ -56,16 +82,16 @@ class Dashboards extends CI_Controller {
 				$this->session->set_flashdata['errors'] = 'There was a system error, please try again.';
 				redirect('register');
 			}
-			$this->session->set_userdata('loggedin', TRUE);
-			$this->session->set_userdata('id', $add_user);
-			redirect('dashboard');
+				$this->session->set_userdata('loggedin', TRUE);
+				$this->session->set_userdata('id', $add_user);
+				redirect('dashboard');	
 		}	
 	}
 
 	public function dashboard() {
 		$display['loggedin'] = $this->session->userdata('loggedin');
 		$this->load->view('templates/header', $display);
-		var_dump($this->session->all_userdata());
+		// var_dump($this->session->all_userdata());
 		$this->load->view('admin_dashboard');
 	}
 }

@@ -40,6 +40,7 @@
 
 $route['default_controller'] = "dashboards/index";
 $route['signin'] = "dashboards/signin";
+$route['signin_user'] = "dashboards/signin_user";
 $route['logout'] = "dashboards/logout";
 $route['register'] = "dashboards/register";
 $route['register_user'] = "dashboards/register_user";
