@@ -126,9 +126,30 @@ class Dashboards extends CI_Controller {
 	public function edit($id) {
 		$this->load->model('DashboardModel');
 		$user_info = $this->DashboardModel->get_user($id);
+		$admin_levels = $this->DashboardModel->get_admin_levels();
 		$display['loggedin'] = $this->session->userdata('loggedin');
 		$display['user_info'] = $user_info;
+		$display['admin_levels'] = $admin_levels;
 		$this->load->view('templates/header', $display);
 		$this->load->view('edit_user', $display);
+	}
+
+	public function edit_user() {
+		$admin_id = $this->session->userdata('id');
+		$this->load->model('DashboardModel');
+		$post = $this->input->post();
+//need to validate form information
+		$user['email'] = $post['email'];
+		$user['first_name'] = $post['first_name'];
+		$user['last_name'] = $post['last_name'];
+		$user['user_level'] = $post['user_level'];
+		$user['updated_by'] = $admin_id;
+		$user['id'] = $post['id'];
+		$result = $this->DashboardModel->update_user($user);
+		if($result> 0) {
+			$this->session->set_flashdata('message', $message);
+			$display['message'] = $this->session->flashdata('message');
+			redirect('dashboard', $display);
+		} 
 	}
 }

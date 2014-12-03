@@ -48,6 +48,7 @@ $route['dashboard'] = "dashboards/dashboard";
 $route['dashboard/admin'] = "dashboards/admin";
 $route['profile/(:num)'] = "dashboards/profile/$1";
 $route['edit/(:num)'] = "dashboards/edit/$1";
+$route['edit_user'] = "dashboards/edit_user";
 $route['404_override'] = '';
 
 
