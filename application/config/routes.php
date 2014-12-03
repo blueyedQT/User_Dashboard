@@ -45,6 +45,9 @@ $route['logout'] = "dashboards/logout";
 $route['register'] = "dashboards/register";
 $route['register_user'] = "dashboards/register_user";
 $route['dashboard'] = "dashboards/dashboard";
+$route['dashboard/admin'] = "dashboards/admin";
+$route['profile/(:num)'] = "dashboards/profile/$1";
+$route['edit/(:num)'] = "dashboards/edit/$1";
 $route['404_override'] = '';
 
 

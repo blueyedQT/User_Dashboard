@@ -35,6 +35,9 @@ class Dashboards extends CI_Controller {
 				if(crypt($password, $user['password']) == $user['password']) {
 					$this->session->set_userdata('id', $user['id']);
 					$this->session->set_userdata('loggedin', TRUE);
+					if($user['user_level'] > 1) {
+						$this->session->set_userdata('admin', $user['user_level']);
+					}
 					redirect('dashboard');
 				}
 			}
@@ -89,9 +92,43 @@ class Dashboards extends CI_Controller {
 	}
 
 	public function dashboard() {
+		//have yet to decide if users and admin will both draw the same dash or not...
+		//Can I send wither the user is an admin or not through the url?
 		$display['loggedin'] = $this->session->userdata('loggedin');
+		$this->load->Model('DashboardModel');
+		$display['users'] = $this->DashboardModel->get_all_users();
 		$this->load->view('templates/header', $display);
 		// var_dump($this->session->all_userdata());
+		if(!empty($this->session->userdata['admin'])) {
+			redirect('/dashboard/admin');
+		} else {
+			$this->load->view('user_dashboard');
+		}	
+	}
+
+	public function admin() {
+		$display['loggedin'] = $this->session->userdata('loggedin');
+		$this->load->Model('DashboardModel');
+		$display['users'] = $this->DashboardModel->get_all_users();
+		$this->load->view('templates/header', $display);
 		$this->load->view('admin_dashboard');
+	}
+
+	public function profile($id) {
+		$this->load->model('DashboardModel');
+		$user_info = $this->DashboardModel->get_user($id);
+		$display['user_info'] = $user_info;
+		$display['loggedin'] = $this->session->userdata('loggedin');
+		$this->load->view('templates/header', $display);
+		$this->load->view('profile', $display);
+	}
+
+	public function edit($id) {
+		$this->load->model('DashboardModel');
+		$user_info = $this->DashboardModel->get_user($id);
+		$display['loggedin'] = $this->session->userdata('loggedin');
+		$display['user_info'] = $user_info;
+		$this->load->view('templates/header', $display);
+		$this->load->view('edit_user', $display);
 	}
 }
