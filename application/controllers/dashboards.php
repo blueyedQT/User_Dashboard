@@ -157,4 +157,12 @@ class Dashboards extends CI_Controller {
 		$this->DashboardModel->delete_user($id);
 		redirect('dashboard/admin');
 	}
+
+	public function add_new() {
+		if(!empty($this->session->userdata('admin'))) {
+			$this->load->view('add_user');
+		} else {
+			redirect('register');
+		}
+	}
 }

@@ -2,7 +2,7 @@
 		<div class="row">
 			<h1 class="col-md-10">Manage Users</h1>
 			<!-- button needs to move all the way to left -->
-			<button class="btn btn-lg btn-primary">Add New</button>
+			<a href="/add_new"><button class="btn btn-lg btn-primary">Add New</button></a>
 		</div>
 		<table class="table table-striped table-bordered">
 			<thead>
