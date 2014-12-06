@@ -23,7 +23,7 @@
 					<td><?php echo $user['email'] ?></td>
 					<td><?php echo $user['created'] ?></td>
 					<td><?php echo $user['level'] ?></td>
-					<td><a href="/edit/<?php echo $user['id'] ?>">Edit</a> <a href="delete_user">Remove</a></td>
+					<td><a href="/edit/<?php echo $user['id'] ?>">Edit</a> <a href="/delete/<?php echo $user['id'] ?>">Remove</a></td>
 				</tr>
 <?php 		} ?>
 			</tbody>

@@ -4,17 +4,16 @@ class Dashboards extends CI_Controller {
 
 	public function __construct(){
 		parent::__construct();
-		// var_dump($this->session->all_userdata());
+		$display['loggedin'] = $this->session->userdata('loggedin');
+		$this->load->view('templates/header', $display);
 	}
 
 	public function index() {
-		$this->load->view('templates/header');
 		$this->load->view('home');
 	}
 
 	public function signin() {
 		$display['errors'] = $this->session->flashdata('errors');
-		$this->load->view('templates/header');
 		$this->load->view('signin', $display);
 	}
 
@@ -53,8 +52,6 @@ class Dashboards extends CI_Controller {
 
 	public function register() {
 		$display['errors'] = $this->session->flashdata('errors');
-		// var_dump($display['errors']);
-		$this->load->view('templates/header');
 		$this->load->view('register', $display);
 	}
 
@@ -93,45 +90,47 @@ class Dashboards extends CI_Controller {
 
 	public function dashboard() {
 		//have yet to decide if users and admin will both draw the same dash or not...
-		//Can I send wither the user is an admin or not through the url?
-		$display['loggedin'] = $this->session->userdata('loggedin');
-		$this->load->Model('DashboardModel');
-		$display['users'] = $this->DashboardModel->get_all_users();
-		$this->load->view('templates/header', $display);
-		// var_dump($this->session->all_userdata());
-		if(!empty($this->session->userdata['admin'])) {
-			redirect('/dashboard/admin');
+		if(!empty($this->session->userdata('admin'))) {
+			redirect('/dashboard/admin', $display);
+		} else if(!empty($this->session->userdata('id'))) {
+			$this->load->Model('DashboardModel');
+			$display['users'] = $this->DashboardModel->get_all_users();
+			$this->load->view('user_dashboard', $display);
 		} else {
-			$this->load->view('user_dashboard');
-		}	
+			redirect ('');
+		}
 	}
 
 	public function admin() {
-		$display['loggedin'] = $this->session->userdata('loggedin');
-		$this->load->Model('DashboardModel');
-		$display['users'] = $this->DashboardModel->get_all_users();
-		$this->load->view('templates/header', $display);
-		$this->load->view('admin_dashboard');
+		if(!empty($this->session->userdata('admin'))) {
+			$this->load->Model('DashboardModel');
+			$display['users'] = $this->DashboardModel->get_all_users();
+			$this->load->view('admin_dashboard', $display);
+		} else {
+			redirect ('');
+		}
 	}
 
 	public function profile($id) {
 		$this->load->model('DashboardModel');
 		$user_info = $this->DashboardModel->get_user($id);
 		$display['user_info'] = $user_info;
-		$display['loggedin'] = $this->session->userdata('loggedin');
-		$this->load->view('templates/header', $display);
 		$this->load->view('profile', $display);
 	}
 
 	public function edit($id) {
-		$this->load->model('DashboardModel');
-		$user_info = $this->DashboardModel->get_user($id);
-		$admin_levels = $this->DashboardModel->get_admin_levels();
-		$display['loggedin'] = $this->session->userdata('loggedin');
-		$display['user_info'] = $user_info;
-		$display['admin_levels'] = $admin_levels;
-		$this->load->view('templates/header', $display);
-		$this->load->view('edit_user', $display);
+// need to be sure that one can only edit if logged in as admin or if they are the logged in user
+		$session = $this->session->all_userdata();
+		if(!empty($session['admin'])) {
+			$this->load->model('DashboardModel');
+			$user_info = $this->DashboardModel->get_user($id);
+			$admin_levels = $this->DashboardModel->get_admin_levels();
+			$display['user_info'] = $user_info;
+			$display['admin_levels'] = $admin_levels;
+			$this->load->view('edit_user', $display);
+		} else {
+			redirect('');
+		}
 	}
 
 	public function edit_user() {
@@ -151,5 +150,11 @@ class Dashboards extends CI_Controller {
 			$display['message'] = $this->session->flashdata('message');
 			redirect('dashboard', $display);
 		} 
+	}
+
+	public function delete_user($id) {
+		$this->load->model('DashboardModel');
+		$this->DashboardModel->delete_user($id);
+		redirect('dashboard/admin');
 	}
 }

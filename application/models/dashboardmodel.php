@@ -37,4 +37,10 @@ class DashboardModel extends CI_Model {
 		$this->db->query($query, $values);
 		return $this->db->affected_rows();
 	} 
+
+	public function delete_user($id) {
+		$query = "DELETE FROM users WHERE id=?";
+		$value = $id;
+		return $this->db->query($query, $value);
+	}
 }
