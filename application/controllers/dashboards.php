@@ -113,8 +113,8 @@ class Dashboards extends CI_Controller {
 
 	public function profile($id) {
 		$this->load->model('DashboardModel');
-		$user_info = $this->DashboardModel->get_user($id);
-		$display['user_info'] = $user_info;
+		$display['user_info'] = $this->DashboardModel->get_user($id);
+		$display['messages'] = $this->DashboardModel->profile($id);
 		$this->load->view('profile', $display);
 	}
 
@@ -175,4 +175,13 @@ class Dashboards extends CI_Controller {
 			redirect('register');
 		}
 	}
+
+	public function message ($id) {
+		$data['message'] = $this->input->post('message');
+		$data['page_user_id'] = $id;
+		$data['created_user_id'] = $this->session->userdata('id');
+		$this->DashboardModel->create_message($data);
+		echo 'here';
+	}
+
 }

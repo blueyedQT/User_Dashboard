@@ -49,4 +49,21 @@ class DashboardModel extends CI_Model {
 		$value = $id;
 		return $this->db->query($query, $value);
 	}
+
+	public function create_message($data) {
+		$query = "INSERT INTO messages (message, page_user_id, created_user_id, created_at, updated_at) VALUES (?,?,?, Now(), NOW())";
+		$values = array($data['message'], $data['page_user_id'], $data['created_user_id']);
+		return $this->db->query($query, $values);
+	}
+
+// need to decide if I need both this and get_user($id).
+	public function profile($id) {
+		$query = "SELECT * FROM users
+				  LEFT JOIN messages
+				  ON users.id = messages.page_user_id
+				  WHERE users.id = ?";
+		$value = array($id);
+		return $this->db->query($query, $value)->result_array();
+		}
+
 }
