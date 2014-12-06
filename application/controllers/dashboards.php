@@ -152,6 +152,16 @@ class Dashboards extends CI_Controller {
 		} 
 	}
 
+	public function edit_password() {
+		$model = $this->input->post();
+		$pass = $model['password'];
+		$salt = bin2hex(openssl_random_pseudo_bytes(22));
+		$hash = crypt($pass, $salt);
+		$model['password'] = $hash;
+		$this->DashboardModel->update_password($model);
+		redirect('dashboard/admin');
+	}
+
 	public function delete_user($id) {
 		$this->load->model('DashboardModel');
 		$this->DashboardModel->delete_user($id);

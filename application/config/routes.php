@@ -11,6 +11,7 @@ $route['dashboard/admin'] = "dashboards/admin";
 $route['profile/(:num)'] = "dashboards/profile/$1";
 $route['edit/(:num)'] = "dashboards/edit/$1";
 $route['edit_user'] = "dashboards/edit_user";
+$route['edit_password'] = "dashboards/edit_password";
 $route['delete/(:num)'] = "dashboards/delete_user/$1";
 $route['add_new'] = "dashboards/add_new";
 $route['404_override'] = '';

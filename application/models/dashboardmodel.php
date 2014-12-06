@@ -36,6 +36,12 @@ class DashboardModel extends CI_Model {
 		$values = array($user['email'], $user['first_name'], $user['last_name'], $user['user_level'], $user['updated_by'], date('Y-m-d, H:i:s'), $user['id']);
 		$this->db->query($query, $values);
 		return $this->db->affected_rows();
+	}
+
+	public function update_password($data) {
+		$query = "UPDATE users SET password=?, updated_at=NOW() WHERE id=?";
+		$values = array($data['password'], $data['id']);
+		return $this->db->query($query, $values);
 	} 
 
 	public function delete_user($id) {
