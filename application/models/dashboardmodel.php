@@ -24,7 +24,10 @@ class DashboardModel extends CI_Model {
 	}
 
 	public function get_user($id) {
-		return $this->db->query("SELECT * FROM users WHERE id = ?", $id)->row_array();
+		$query = "SELECT id, first_name, last_name, DATE_FORMAT(created_at, '%M %D, %Y') AS created, email, description 
+				  FROM users WHERE id = ?";
+		$value = $id;
+		return $this->db->query($query, $value)->row_array();
 	}
 
 	public function get_admin_levels() {
@@ -56,14 +59,35 @@ class DashboardModel extends CI_Model {
 		return $this->db->query($query, $values);
 	}
 
+	public function create_comment($data) {
+		$query = "INSERT INTO comments (comment, message_id, created_user_id, created_at, updated_at) VALUES (?,?,?, NOW(), NOW())";
+		$values = array($data['comment'], $data['message_id'], $data['created_user_id']);
+		return $this->db->query($query, $values);
+	}
+
 // need to decide if I need both this and get_user($id).
 	public function profile($id) {
-		$query = "SELECT * FROM users
+		$query = "SELECT messages.id, message, messages.created_at, CONCAT_WS(' ', creators.first_name, creators.last_name) AS message_name 
+				  FROM users
 				  LEFT JOIN messages
 				  ON users.id = messages.page_user_id
+				  LEFT JOIN users AS creators
+				  ON messages.created_user_id = creators.id
 				  WHERE users.id = ?";
 		$value = array($id);
 		return $this->db->query($query, $value)->result_array();
-		}
+	}
+
+	public function get_comments($id) {
+		$query = "SELECT comments.id, comments.created_at, comments.created_user_id, comment, comments.message_id, CONCAT_WS(' ', first_name, last_name) AS comment_name
+				  FROM comments 
+				  LEFT JOIN messages
+				  ON comments.message_id = messages.id
+				  LEFT JOIN users
+				  ON comments.created_user_id = users.id
+				  WHERE page_user_id =?";
+		$value = array($id);
+		return $this->db->query($query, $value)->result_array();
+	}
 
 }

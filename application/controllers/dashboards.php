@@ -115,6 +115,7 @@ class Dashboards extends CI_Controller {
 		$this->load->model('DashboardModel');
 		$display['user_info'] = $this->DashboardModel->get_user($id);
 		$display['messages'] = $this->DashboardModel->profile($id);
+		$display['comments'] = $this->DashboardModel->get_comments($id);
 		$this->load->view('profile', $display);
 	}
 
@@ -182,6 +183,15 @@ class Dashboards extends CI_Controller {
 		$data['created_user_id'] = $this->session->userdata('id');
 		$this->DashboardModel->create_message($data);
 		echo 'here';
+	}
+
+	public function comment ($id) {
+		$data['comment'] = $this->input->post('comment');
+		$data['message_id'] = $id;
+		$data['created_user_id'] = $this->session->userdata('id');
+		$user = $this->input->post('id');
+		$this->DashboardModel->create_comment($data);
+		redirect_back();
 	}
 
 }

@@ -15,6 +15,7 @@ $route['edit_password'] = "dashboards/edit_password";
 $route['delete/(:num)'] = "dashboards/delete_user/$1";
 $route['add_new'] = "dashboards/add_new";
 $route['post_message/(:num)'] = "dashboards/message/$1";
+$route['post_comment/(:num)'] = "dashboards/comment/$1";
 $route['404_override'] = '';
 
 
