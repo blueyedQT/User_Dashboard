@@ -5,6 +5,7 @@ class Dashboards extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		$display['loggedin'] = $this->session->userdata('loggedin');
+		$display['user'] = $this->session->userdata('id');
 		$this->load->view('templates/header', $display);
 	}
 
