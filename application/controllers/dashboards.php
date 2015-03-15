@@ -126,6 +126,7 @@ class Dashboards extends CI_Controller {
 			$this->load->model('DashboardModel');
 			$user_info = $this->DashboardModel->get_user($id);
 			$admin_levels = $this->DashboardModel->get_admin_levels();
+			var_dump($admin_levels);
 			$display['user_info'] = $user_info;
 			$display['admin_levels'] = $admin_levels;
 			$this->load->view('edit_user', $display);

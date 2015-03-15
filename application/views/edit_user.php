@@ -13,12 +13,14 @@
 				<p>Last Name:</p>
 				<input type="text" name="last_name" value="<?php echo $user_info['last_name'] ?>">
 				<!-- format cleaner! -->
-				<p>User Level: <select name="user_level">
-<?php 			foreach($admin_levels as $level) { ?>
-					<option value="<?php echo $level['id']?>" 
-<?php 				if($level['id'] == $user_info['user_level']) {
-						echo 'selected="selected"'; 
-					} ?> ><?php echo $level['name'] ?></option>
+				<p>User Level: 
+<?php 			foreach($admin_levels as $level) { ?><select name="user_level">
+					<option value="<?php echo $level['id']?>"
+<?php 					if($level['id'] == $user_info['user_level']) {
+							echo '\"selected\"'; 
+						} ?> >
+						<?php echo $level['name'] ?>
+					</option>
 <?php 			} ?>
 				</select></p>
 				<input type="hidden" name="id" value="<?php echo $user_info['id'] ?>">

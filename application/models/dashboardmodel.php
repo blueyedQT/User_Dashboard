@@ -24,7 +24,7 @@ class DashboardModel extends CI_Model {
 	}
 
 	public function get_user($id) {
-		$query = "SELECT id, first_name, last_name, DATE_FORMAT(created_at, '%M %D, %Y') AS created, email, description 
+		$query = "SELECT id, first_name, last_name, DATE_FORMAT(created_at, '%M %D, %Y') AS created, email, description, user_level 
 				  FROM users WHERE id = ?";
 		$value = $id;
 		return $this->db->query($query, $value)->row_array();
