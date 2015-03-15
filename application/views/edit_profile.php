@@ -35,7 +35,7 @@
 		<form role="form" class="multiple" action="/edit_description" method="post">
 			<legend>Edit Description</legend>
 			<div class="form-group">
-				<textarea class="form-control" name="description"></textarea>
+				<textarea class="form-control" name="description"><?php echo $user_info['description'] ?></textarea>
 			</div>
 			<input type="hidden" name="id" value="<?php echo $user_info['id'] ?>">
 			<button class="btn btn-primary" type="submit" name="submit">Save<button>
