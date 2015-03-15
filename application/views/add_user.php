@@ -5,13 +5,12 @@
 		</div>
 		<form class="col-md-4" action="register_user" method="post">
 			<fieldset>
-				<?php if(!empty($errors)) { ?>
+<?php 			if(!empty($errors)) { ?>
 				<div class="alert alert-danger" role="alert">
 					<span class="sr-only">Error:</span>
 					<?php echo $errors ?>
 				</div>
-				
-			<?php	} ?>
+<?php			} ?>
 				<!-- Need to come up with a better way of getting them stacked inline than paragraph tags I think -->
 				<p><label>Email Address: </label></p>
 				<p><input type="text" name="email" placeholder="xyz@example.com"></p>

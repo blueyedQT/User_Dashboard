@@ -1,8 +1,5 @@
 	<div class="container">
-		<div class="row">
-			<h1 class="col-md-9">Edit User #<?php echo $user_info['id'] ?></h1>
-			<a href="/dashboard/admin"><button class="btn btn-lg btn-primary">Return to Dashboard</button></a>
-		</div>
+		<h1>Edit User #<?php echo $user_info['id'] ?></h1>
 		<div class="row">
 			<form class="col-md-3" action="/edit_user" method="post">
 				<legend>Edit Information</legend>
@@ -13,14 +10,12 @@
 				<p>Last Name:</p>
 				<input type="text" name="last_name" value="<?php echo $user_info['last_name'] ?>">
 				<!-- format cleaner! -->
-				<p>User Level: 
-<?php 			foreach($admin_levels as $level) { ?><select name="user_level">
-					<option value="<?php echo $level['id']?>"
-<?php 					if($level['id'] == $user_info['user_level']) {
-							echo '\"selected\"'; 
-						} ?> >
-						<?php echo $level['name'] ?>
-					</option>
+				<p>User Level: <select name="user_level">
+<?php 			foreach($admin_levels as $level) { ?>
+					<option value="<?php echo $level['id']?>" 
+<?php 				if($level['id'] == $user_info['user_level']) {
+						echo 'selected="selected"'; 
+					} ?> ><?php echo $level['name'] ?></option>
 <?php 			} ?>
 				</select></p>
 				<input type="hidden" name="id" value="<?php echo $user_info['id'] ?>">
