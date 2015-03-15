@@ -1,5 +1,8 @@
 	<div class="container">
-		<h1>Add User</h1>
+		<div class="row">
+			<h1 class="col-md-9">Add User</h1>
+			<a href="/dashboard/admin"><button class="btn btn-lg btn-primary">Return to Dashboard</button></a>
+		</div>
 		<form class="col-md-4" action="register_user" method="post">
 			<fieldset>
 				<?php if(!empty($errors)) { ?>

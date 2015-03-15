@@ -1,5 +1,8 @@
 	<div class="container">
-		<h1>Edit User #<?php echo $user_info['id'] ?></h1>
+		<div class="row">
+			<h1 class="col-md-9">Edit User #<?php echo $user_info['id'] ?></h1>
+			<a href="/dashboard/admin"><button class="btn btn-lg btn-primary">Return to Dashboard</button></a>
+		</div>
 		<div class="row">
 			<form class="col-md-3" action="/edit_user" method="post">
 				<legend>Edit Information</legend>
