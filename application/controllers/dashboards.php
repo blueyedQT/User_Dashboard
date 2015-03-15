@@ -120,6 +120,24 @@ class Dashboards extends CI_Controller {
 		$this->load->view('profile', $display);
 	}
 
+	public function edit_profile() {
+		$id = $this->session->userdata('id');
+		$this->load->model('DashboardModel');
+		$display['user_info'] = $this->DashboardModel->get_user($id);
+		$this->load->view('edit_profile', $display);
+	}
+
+	public function edit_description() {
+		$user['description'] = $this->input->post('description');
+		$user['id'] = $this->input->post('id');
+		$result = $this->DashboardModel->update_description($user);
+		if($result> 0) {
+			$this->session->set_flashdata('message', $message);
+			$display['message'] = $this->session->flashdata('message');
+			redirect('edit_profile', $display);
+		} 
+	}
+
 	public function edit($id) {
 // need to be sure that one can only edit if logged in as admin or if they are the logged in user
 		$session = $this->session->all_userdata();
@@ -127,7 +145,6 @@ class Dashboards extends CI_Controller {
 			$this->load->model('DashboardModel');
 			$user_info = $this->DashboardModel->get_user($id);
 			$admin_levels = $this->DashboardModel->get_admin_levels();
-			var_dump($admin_levels);
 			$display['user_info'] = $user_info;
 			$display['admin_levels'] = $admin_levels;
 			$this->load->view('edit_user', $display);

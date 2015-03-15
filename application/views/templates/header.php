@@ -28,7 +28,7 @@
 	  			<!-- If user is logged in show dashboard and profile instead of home -->
 <?php 			if(!empty($loggedin)) { ?>
     				<li><a href="/dashboard">Dashboard<span class="sr-only">(current)</span></a></li>
-    				<li><a href="/profile/<?php echo $user ?>">Profile<span class="sr-only">(current)</span></a></li>
+    				<li><a href="/edit_profile">Profile<span class="sr-only">(current)</span></a></li>
 <?php 			} else { ?>
 	    			<li><a href="/">Home<span class="sr-only">(current)</span></a></li>
 <?php 			} ?>

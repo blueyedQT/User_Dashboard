@@ -47,6 +47,12 @@ class DashboardModel extends CI_Model {
 		return $this->db->query($query, $values);
 	} 
 
+	public function update_description($data) {
+		$query = "UPDATE users SET description=?, updated_at=NOW() WHERE id=?";
+		$values = array($data['description'], $data['id']);
+		return $this->db->query($query, $values);
+	}
+
 	public function delete_user($id) {
 		$query = "DELETE FROM users WHERE id=?";
 		$value = $id;
