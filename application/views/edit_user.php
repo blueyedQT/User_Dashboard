@@ -10,7 +10,7 @@
 				<p>Last Name:</p>
 				<input type="text" name="last_name" value="<?php echo $user_info['last_name'] ?>">
 				<!-- format cleaner! -->
-				<p>User Level: <select name="user_level">
+				<p>User Level:</p><select name="user_level">
 <?php 			foreach($admin_levels as $level) { ?>
 					<option value="<?php echo $level['id']?>" 
 <?php 				if($level['id'] == $user_info['user_level']) {
