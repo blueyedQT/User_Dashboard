@@ -27,7 +27,9 @@
 				<label for="password2">Password Confirmation:</label>
 				<input class="form-control" type="password" name="password2">
 			</div>
-			<button type="submit" name="submit" class="btn btn-success block">Sign In</button>
+			<div class="form-group">
+				<button type="submit" name="submit" class="btn btn-success">Sign In</button>
+			</div>
 			<a href="signin">Already have an account? Login</a>
 		</form>
 	</div>

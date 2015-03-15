@@ -1,7 +1,7 @@
 	<div class="container">
 		<h1>Edit Profile</h1>
 		<div class="row">
-			<form role="form" class="col-md-4" action="/edit_user" method="post">
+			<form role="form" class="col-md-4 multiple" action="/edit_user" method="post">
 				<legend>Edit Information</legend>
 				<div class="form-group">
 					<label for="email">Email Address:</label>
@@ -18,7 +18,7 @@
 				<input type="hidden" name="id" value="<?php echo $user_info['id'] ?>">
 				<button class="btn btn-primary" type="submit" name="submit">Save</button>
 			</form>
-			<form role="form" class="col-md-4 col-md-offset-2" action="/edit_password" method="post">
+			<form role="form" class="col-md-4 col-md-offset-2 multiple" action="/edit_password" method="post">
 				<legend>Change Password</legend>
 				<div class="form-group">
 					<label for="password">Password:</label>
@@ -32,7 +32,7 @@
 				<button class="btn btn-primary" type="submit" name="submit">Update Password</button>
 			</form>
 		</div>
-		<form role="form" action="/edit_description" method="post">
+		<form role="form" class="multiple" action="/edit_description" method="post">
 			<legend>Edit Description</legend>
 			<div class="form-group">
 				<textarea class="form-control" name="description"></textarea>

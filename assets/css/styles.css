@@ -2,9 +2,9 @@
 	background-color: lightblue;
 }
 
-/* login/register */
-.block {
-	display: block;
+/* edit_user/edit_profile pages */
+.multiple {
+	margin-top: 25px;
 	margin-bottom: 25px;
 }
 
