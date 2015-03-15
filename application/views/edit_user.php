@@ -1,7 +1,7 @@
 	<div class="container">
 		<h1>Edit User #<?php echo $user_info['id'] ?></h1>
 		<div class="row">
-			<form crole="form" class="col-md-4" action="/edit_user" method="post">
+			<form role="form" class="col-md-4" action="/edit_user" method="post">
 				<legend>Edit Information</legend>
 				<div class="form-group">
 					<label for="email">Email Address:</label>

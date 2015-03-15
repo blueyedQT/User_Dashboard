@@ -2,12 +2,19 @@
 	background-color: lightblue;
 }
 
-/*proflie page*/
+/* login/register */
+.block {
+	display: block;
+	margin-bottom: 25px;
+}
+
+/*profile page*/
 .outline {
 	border-top: 1px solid gray;
 	border-bottom: 1px solid gray;
 /*	border-radius: 4px;*/
 }
+
 .message {
 	min-height: 30px;
 	padding: 10px;
