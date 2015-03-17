@@ -79,7 +79,8 @@ class DashboardModel extends CI_Model {
 				  ON users.id = messages.page_user_id
 				  LEFT JOIN users AS creators
 				  ON messages.created_user_id = creators.id
-				  WHERE users.id = ?";
+				  WHERE users.id = ?
+				  ORDER BY messages.created_at DESC";
 		$value = array($id);
 		return $this->db->query($query, $value)->result_array();
 	}

@@ -201,7 +201,7 @@ class Dashboards extends CI_Controller {
 		$data['page_user_id'] = $id;
 		$data['created_user_id'] = $this->session->userdata('id');
 		$this->DashboardModel->create_message($data);
-		echo 'here';
+		redirect_back();
 	}
 
 	public function comment ($id) {
