@@ -21,7 +21,7 @@
 <?php	if(!empty($messages)) { 
 			foreach($messages as $message) { ?>
 		<div class="row">
-			<h4 class="col-md-10"><a href="#"><?php echo $message['message_name'] ?></a> wrote</h4>
+			<h4 class="col-md-10"><a href="/profile/<?php echo $message['user_id'] ?>"><?php echo $message['message_name'] ?></a> wrote</h4>
 			<p class="col-md-2 text-right"><?php echo $message['created_at'] ?></p>
 		</div>
 		<div class="row message outline"><?php echo $message['message'] ?></div>

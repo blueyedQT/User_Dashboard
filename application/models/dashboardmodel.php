@@ -73,7 +73,7 @@ class DashboardModel extends CI_Model {
 
 // need to decide if I need both this and get_user($id).
 	public function profile($id) {
-		$query = "SELECT messages.id, message, messages.created_at, CONCAT_WS(' ', creators.first_name, creators.last_name) AS message_name 
+		$query = "SELECT messages.id, message, messages.created_at, CONCAT_WS(' ', creators.first_name, creators.last_name) AS message_name, messages.created_user_id AS user_id 
 				  FROM users
 				  LEFT JOIN messages
 				  ON users.id = messages.page_user_id
