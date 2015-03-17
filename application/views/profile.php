@@ -1,4 +1,3 @@
-<?php var_dump($messages) ?>
 	<div class="container">
 		<div class="row">
 			<h1><?php echo $user_info['first_name'].' '.$user_info['last_name'] ?></h1>
@@ -19,25 +18,26 @@
 			</form>
 		</div>
 <?php	if(!empty($messages)) { 
-			foreach($messages as $message) { ?>
+			foreach($messages as $message) {
+				if($message['id'] !== null) { ?>
 		<div class="row">
 			<h4 class="col-md-10"><a href="/profile/<?php echo $message['user_id'] ?>"><?php echo $message['message_name'] ?></a> wrote</h4>
 			<p class="col-md-2 text-right"><?php echo $message['created_at'] ?></p>
 		</div>
 		<div class="row message outline"><?php echo $message['message'] ?></div>
-<?php 			if(!empty($comments)) {
-					foreach ($comments as $comment) {
-						if($comment['message_id'] == $message['id']) { ?>
+<?php 				if(!empty($comments)) {
+						foreach ($comments as $comment) {
+							if($comment['message_id'] == $message['id']) { ?>
 		<div class="row">
 			<p class="col-md-9 col-md-offset-1"><a href="#"><?php echo $comment['comment_name'] ?></a> wrote</p>
 			<p class="col-md-2 text-right"><?php echo $comment['created_at'] ?></p>
 		</div>
 		<div class="row">
 			<div class="outline comment col-md-11 col-md-offset-1"><?php echo $comment['comment'] ?></div>
-		</div>	
-<?php 					}
-					}
-				} ?>
+		</div>
+<?php 						}
+						}
+					} ?>
 		<form role="form" class="col-md-offset-1" action="/post_comment/<?php echo $message['id'] ?>" method="post">
 			<div class="row form-group">
 				<textarea class="form-control" name="comment">WRITE A COMMENT HERE</textarea>
@@ -47,7 +47,8 @@
 			<button class="col-md-2 col-md-offset-10 btn btn-success" type="submit">Post Comment</button>
 		</div>
 		</form>
-<?php	 	}
+<?php			}
+	 		}
 		} ?>
 
 
