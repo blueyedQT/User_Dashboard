@@ -10,9 +10,8 @@
 
 /*profile page*/
 .outline {
-	border-top: 1px solid gray;
-	border-bottom: 1px solid gray;
-/*	border-radius: 4px;*/
+	border: 1px solid lightgray;
+	border-radius: 4px;
 }
 
 .message_container {
@@ -23,5 +22,14 @@
 
 .message {
 	min-height: 30px;
-	/*padding: 10px;*/
+	padding: 15px;
+	margin-bottom: 25px;
+	background-color: #EBF5FF;
+}
+
+.comment {
+	background-color: #CCFFCC;
+	min-height: 30px;
+	padding: 15px;
+	margin-bottom: 25px;
 }
