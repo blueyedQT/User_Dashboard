@@ -15,7 +15,13 @@
 /*	border-radius: 4px;*/
 }
 
+.message_container {
+	margin-top: 15px;
+	margin-bottom: 15px;
+	background-color: yellow;
+}
+
 .message {
 	min-height: 30px;
-	padding: 10px;
+	/*padding: 10px;*/
 }
