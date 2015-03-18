@@ -53,12 +53,13 @@ class Dashboards extends CI_Controller {
 
 	public function register() {
 		$display['errors'] = $this->session->flashdata('errors');
+		// var_dump($display);
+		// die();
 		$this->load->view('register', $display);
 	}
 
 	public function register_user() {
-		//add unique
-		$this->form_validation->set_rules('email', 'Email Address', 'required|valid_email');
+		$this->form_validation->set_rules('email', 'Email Address', 'required|valid_email|is_unique[users.email]');
 		$this->form_validation->set_rules('first_name', 'First Name', 'required|trim|alpha|min_length[2]');
 		$this->form_validation->set_rules('last_name', 'Last Name', 'required|trim|alpha|min_length[2]');
 		$this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
@@ -70,6 +71,7 @@ class Dashboards extends CI_Controller {
 		} else {
 			$this->load->model('DashboardModel');
 			$post = $this->input->post();
+			$email = $this->DashboardModel->check_email($post['email']);
 			$model = array();
 			$model['first_name'] = $post['first_name'];
 			$model['last_name'] = $post['last_name'];
@@ -83,9 +85,9 @@ class Dashboards extends CI_Controller {
 				$this->session->set_flashdata['errors'] = 'There was a system error, please try again.';
 				redirect('register');
 			}
-				$this->session->set_userdata('loggedin', TRUE);
-				$this->session->set_userdata('id', $add_user);
-				redirect('dashboard');	
+			$this->session->set_userdata('loggedin', TRUE);
+			$this->session->set_userdata('id', $add_user);
+			redirect('dashboard');	
 		}	
 	}
 
