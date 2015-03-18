@@ -21,6 +21,12 @@
 			<p>Email Address: <?php echo $user_info['email'] ?></p>
 			<p>Description: <?php echo $user_info['description'] ?></p>
 		</div>
+<?php 	if(!empty($errors)) { ?>
+		<div class="row alert alert-danger" role="alert">
+			<span class="sr-only">Message:</span>
+			<?php echo $errors ?>
+		</div>
+<?php	} ?>
 		<div class="row">
 			<h1>Leave a message for <?php echo $user_info['first_name'] ?></h1>
 			<form role="form" action="/post_message/<?php echo $user_info['id'] ?>" method="post">
@@ -64,3 +70,7 @@
 	 		}
 		} ?>
 	</div>
+	<div class="footer">
+	</div>
+</body>
+</html>

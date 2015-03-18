@@ -56,6 +56,14 @@ class Dashboards extends CI_Controller {
 		$this->load->view('register', $display);
 	}
 
+	public function add_new() {
+		if(!empty($this->session->userdata('admin'))) {
+			$this->load->view('add_user');
+		} else {
+			redirect('register');
+		}
+	}
+
 	public function register_user() {
 		$this->form_validation->set_rules('email', 'Email Address', 'required|valid_email|is_unique[users.email]');
 		$this->form_validation->set_rules('first_name', 'First Name', 'required|trim|alpha|min_length[2]');
@@ -114,10 +122,10 @@ class Dashboards extends CI_Controller {
 	public function profile($id) {
 		$this->load->model('DashboardModel');
 		$display['user_info'] = $this->DashboardModel->get_user($id);
+		$display['errors'] = $this->session->flashdata('errors');
 		$display['messages'] = $this->DashboardModel->profile($id);
 		$display['comments'] = $this->DashboardModel->get_comments($id);
 		$this->load->view('profile', $display);
-		$this->load->view('templates/footer');
 	}
 
 	public function edit_profile() {
@@ -148,6 +156,7 @@ class Dashboards extends CI_Controller {
 		} 
 	}
 
+/// I think this one is not really being used...??? ///
 	public function edit($id) {
 // need to be sure that one can only edit if logged in as admin or if they are the logged in user
 		$session = $this->session->all_userdata();
@@ -165,6 +174,7 @@ class Dashboards extends CI_Controller {
 			redirect('');
 		}
 	}
+/////////////////////////////////////////////////////////
 
 	public function edit_user() {
 		$this->form_validation->set_rules('email', 'Email Address', 'required|valid_email');
@@ -223,15 +233,13 @@ class Dashboards extends CI_Controller {
 		redirect('dashboard/admin');
 	}
 
-	public function add_new() {
-		if(!empty($this->session->userdata('admin'))) {
-			$this->load->view('add_user');
-		} else {
-			redirect('register');
+	public function message($id) {
+		$this->form_validation->set_rules('message', 'Message', 'required|min_length[6]');
+		if($this->form_validation->run() == FALSE) {
+			$this->view_data['errors'] = validation_errors();
+			$this->session->set_flashdata('errors', $this->view_data['errors']);
+			redirect_back();
 		}
-	}
-
-	public function message ($id) {
 		$data['message'] = $this->input->post('message');
 		$data['page_user_id'] = $id;
 		$data['created_user_id'] = $this->session->userdata('id');
@@ -240,6 +248,12 @@ class Dashboards extends CI_Controller {
 	}
 
 	public function comment ($id) {
+		$this->form_validation->set_rules('comment', 'Comment', 'required|min_length[2]');
+		if($this->form_validation->run() == FALSE) {
+			$this->view_data['errors'] = validation_errors();
+			$this->session->set_flashdata('errors', $this->view_data['errors']);
+			redirect_back();
+		}
 		$data['comment'] = $this->input->post('comment');
 		$data['message_id'] = $id;
 		$data['created_user_id'] = $this->session->userdata('id');

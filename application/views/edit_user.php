@@ -11,10 +11,10 @@
 				<legend>Edit Information</legend>
 				<div class="form-group">
 <?php 	if(!empty($errors)) { ?>
-			<div class="alert alert-danger" role="alert">
-				<span class="sr-only">Message:</span>
+					<div class="alert alert-danger" role="alert">
+						<span class="sr-only">Message:</span>
 				<?php echo $errors ?>
-			</div>
+					</div>
 <?php	} ?>
 					<label for="email">Email Address:</label>
 					<input class="form-control" type="text" name="email" value="<?php echo $user_info['email'] ?>">
