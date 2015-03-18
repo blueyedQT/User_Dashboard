@@ -18,7 +18,7 @@
 			<h1>Leave a message for <?php echo $user_info['first_name'] ?></h1>
 			<form role="form" class="message_form" action="/post_message/<?php echo $user_info['id'] ?>" method="post">
 				<div class="form-group">
-					<textarea class="form-control" rows="3" name="message"></textarea>
+					<textarea id="textarea_message" class="form-control" rows="3" name="message"></textarea>
 				</div>
 				<button class="col-md-2 col-md-offset-10 btn btn-primary button_margin" type="submit">Post Message</button>
 			</form>
@@ -83,21 +83,24 @@
 				$(this).serialize(),
 				function(output) {
 					if(output.action == 'add_message') {
-						console.log(output);
+						$('textarea').val('');
 						$('#all_messages').prepend(
-							"<div class='message'>"+
-								"<h3>"+output.message+"</h3>"+
-						// 		// "<form class='update' action='update_note' method='post'>"+
-						// 		// 	"<input type='text' name='description' value='"+output.description+"'>"+
-						// 		// 	"<input type='hidden' name='id' value='"+output.id+"'>"+
-						// 		// "</form>"+
-						// 		// "<form class='delete' action='delete' method='post'>"+
-						// 		// 	"<input type='hidden' name='id' value='"+output.id+"'>"+
-						// 		// 	"<input type='submit' name='delete' value='Delete'>"+
-						// 		// "</form>"+
-							"</div>");
-					} else if(output.action == 'delete') {
-						$(thisOne).parent().remove();
+							"<div class='row'>"+
+								"<p class='col-md-10'>You wrote:</p>"+
+								"<p class='col-md-2 text-right'>1 minute ago</p>"+
+							"</div>"+
+							"<div class='row message'>"+output.message+"</div>"+				
+							"<form role='form' class='col-md-offset-1' action='/post_comment/'"+output.id+"' method='post'>"+
+								"<div class='row form-group'>"+
+									"<textarea class='form-control' name='comment'></textarea>"+
+								"</div>"+
+								"<input type='hidden' name='user' value='<?php echo $user_info['id'] ?>'>"+
+								"<div class='row'>"+
+									"<button class='col-md-2 col-md-offset-10 btn btn-success button_margin' type='submit'>Post Comment</button>"+
+								"</div>"+
+							"</form>");
+					// } else if(output.action == 'delete') {
+					// 	$(thisOne).parent().remove();
 					}
 				}, "json"
 			);
