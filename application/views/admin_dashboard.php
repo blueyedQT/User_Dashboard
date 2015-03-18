@@ -22,11 +22,19 @@
 					<td><?php echo $user['email'] ?></td>
 					<td><?php echo $user['created'] ?></td>
 					<td><?php echo $user['level'] ?></td>
-					<td><a href="/edit/<?php echo $user['id'] ?>">Edit</a> <a href="/delete/<?php echo $user['id'] ?>">Remove</a></td>
+					<td><a href="/edit/<?php echo $user['id'] ?>">Edit</a> <a class="delete" href="/delete/<?php echo $user['id'] ?>">Remove</a></td>
 				</tr>
 <?php 		} ?>
 			</tbody>
 		</table>
 	</div>
 </body>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('.delete').click(function(){
+			var answer = confirm('Are you sure?');
+			console.log(answer);
+		});
+	});
+</script>
 </html>
