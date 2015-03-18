@@ -43,7 +43,7 @@
 			<p class="col-md-10"><a href="/profile/<?php echo $message['user_id'] ?>"><?php echo $message['message_name'] ?></a> wrote:</p>
 			<p class="col-md-2 text-right"><?php echo timeAgo($message['created_at']) ?></p>
 		</div>
-		<div class="row message outline"><?php echo $message['message'] ?></div>
+		<div class="row message"><?php echo $message['message'] ?></div>
 <?php 				if(!empty($comments)) {
 						foreach ($comments as $comment) {
 							if($comment['message_id'] == $message['id']) { ?>

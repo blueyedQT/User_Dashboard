@@ -9,11 +9,6 @@
 }
 
 /*profile page*/
-.outline {
-	border: 1px solid lightgray;
-	border-radius: 4px;
-}
-
 .message_container {
 	margin-top: 15px;
 	margin-bottom: 15px;
@@ -24,7 +19,8 @@
 	min-height: 30px;
 	padding: 15px;
 	margin-bottom: 25px;
-	background-color: #FAFFFF;
+	background-color: #E0E2E3;
+	border-radius: 5px;
 }
 
 .button_margin {
@@ -32,10 +28,12 @@
 }
 
 .comment {
-	background-color: #FDFDFC;
+	background-color: #F6F6F7;
 	min-height: 30px;
 	padding: 15px;
 	margin-bottom: 25px;
+	/*border: 1px solid #E6E6FF;*/
+	border-radius: 5px;
 }
 
 .footer {
