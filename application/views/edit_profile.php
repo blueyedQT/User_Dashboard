@@ -20,6 +20,12 @@
 			</form>
 			<form role="form" class="col-md-4 col-md-offset-2 multiple" action="/edit_password" method="post">
 				<legend>Change Password</legend>
+<?php 		if(!empty($errors_password)) { ?>
+				<div class="alert alert-danger" role="alert">
+					<span class="sr-only">Error:</span>
+					<?php echo $errors_password ?>
+				</div>
+<?php		} ?>
 				<div class="form-group">
 					<label for="password">Password:</label>
 					<input class="form-control" type="password" name="password">

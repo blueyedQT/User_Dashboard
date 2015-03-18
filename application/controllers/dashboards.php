@@ -90,7 +90,6 @@ class Dashboards extends CI_Controller {
 	}
 
 	public function dashboard() {
-		//have yet to decide if users and admin will both draw the same dash or not...
 		if(!empty($this->session->userdata('admin'))) {
 			redirect('/dashboard/admin', $display);
 		} else if(!empty($this->session->userdata('id'))) {
@@ -123,6 +122,7 @@ class Dashboards extends CI_Controller {
 
 	public function edit_profile() {
 		$id = $this->session->userdata('id');
+		$display['errors_password'] = $this->session->flashdata('errors_password');
 		$this->load->model('DashboardModel');
 		$display['user_info'] = $this->DashboardModel->get_user($id);
 		$this->load->view('edit_profile', $display);
@@ -148,6 +148,7 @@ class Dashboards extends CI_Controller {
 			$admin_levels = $this->DashboardModel->get_admin_levels();
 			$display['user_info'] = $user_info;
 			$display['admin_levels'] = $admin_levels;
+			$display['errors_password'] = $this->session->flashdata('errors_password');
 			$this->load->view('edit_user', $display);
 		} else {
 			redirect('');
@@ -174,6 +175,13 @@ class Dashboards extends CI_Controller {
 	}
 
 	public function edit_password() {
+		$this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
+		$this->form_validation->set_rules('password2', 'Confirm Password', 'required|matches[password]');
+		if($this->form_validation->run() == FALSE) {
+			$this->view_data['errors'] = validation_errors();
+			$this->session->set_flashdata('errors_password', $this->view_data['errors']);
+			redirect_back();
+		}
 		$model = $this->input->post();
 		$pass = $model['password'];
 		$salt = bin2hex(openssl_random_pseudo_bytes(22));

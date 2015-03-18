@@ -53,7 +53,7 @@
 					} ?>
 		<form role="form" class="col-md-offset-1" action="/post_comment/<?php echo $message['id'] ?>" method="post">
 			<div class="row form-group">
-				<textarea class="form-control" name="comment">WRITE A COMMENT HERE</textarea>
+				<textarea class="form-control" name="comment"></textarea>
 			</div>
 			<input type="hidden" name="user" value="<?php echo $user_info['id'] ?>">
 			<div class="row">
