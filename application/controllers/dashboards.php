@@ -122,20 +122,29 @@ class Dashboards extends CI_Controller {
 
 	public function edit_profile() {
 		$id = $this->session->userdata('id');
+		$display['message'] = $this->session->flashdata('message');
+		$display['errors'] = $this->session->flashdata('errors');
 		$display['errors_password'] = $this->session->flashdata('errors_password');
+		$display['errors_description'] = $this->session->flashdata('errors_description');
 		$this->load->model('DashboardModel');
 		$display['user_info'] = $this->DashboardModel->get_user($id);
 		$this->load->view('edit_profile', $display);
 	}
 
 	public function edit_description() {
+		$this->form_validation->set_rules('description', 'Profile Description', 'required|trim|alpha|min_length[2]');
+		if($this->form_validation->run() == FALSE) {
+			$this->view_data['errors'] = validation_errors();
+			$this->session->set_flashdata('errors_description', $this->view_data['errors']);
+			redirect_back();
+		}
 		$user['description'] = $this->input->post('description');
 		$user['id'] = $this->input->post('id');
 		$result = $this->DashboardModel->update_description($user);
-		if($result> 0) {
+		if($result > 0) {
+			$message = 'You have successfully updated your profile description.';
 			$this->session->set_flashdata('message', $message);
-			$display['message'] = $this->session->flashdata('message');
-			redirect('edit_profile', $display);
+			redirect('edit_profile');
 		} 
 	}
 
@@ -147,8 +156,10 @@ class Dashboards extends CI_Controller {
 			$user_info = $this->DashboardModel->get_user($id);
 			$admin_levels = $this->DashboardModel->get_admin_levels();
 			$display['user_info'] = $user_info;
+			$display['errors'] = $this->session->flashdata('errors');
 			$display['admin_levels'] = $admin_levels;
 			$display['errors_password'] = $this->session->flashdata('errors_password');
+			$display['message'] = $this->session->flashdata('message');
 			$this->load->view('edit_user', $display);
 		} else {
 			redirect('');
@@ -156,22 +167,33 @@ class Dashboards extends CI_Controller {
 	}
 
 	public function edit_user() {
-		$admin_id = $this->session->userdata('id');
+		$this->form_validation->set_rules('email', 'Email Address', 'required|valid_email');
+		$this->form_validation->set_rules('first_name', 'First Name', 'required|trim|alpha|min_length[2]');
+		$this->form_validation->set_rules('last_name', 'Last Name', 'required|trim|alpha|min_length[2]');
+		if($this->form_validation->run() == FALSE) {
+			$this->view_data['errors'] = validation_errors();
+			$this->session->set_flashdata('errors', $this->view_data['errors']);
+			redirect_back();
+		}
+		$updater_id = $this->session->userdata('id');
 		$this->load->model('DashboardModel');
 		$post = $this->input->post();
-//need to validate form information
 		$user['email'] = $post['email'];
 		$user['first_name'] = $post['first_name'];
 		$user['last_name'] = $post['last_name'];
-		$user['user_level'] = $post['user_level'];
-		$user['updated_by'] = $admin_id;
+		$user['updated_by'] = $updater_id;
 		$user['id'] = $post['id'];
-		$result = $this->DashboardModel->update_user($user);
-		if($result> 0) {
+		if($updater_id !== $post['id']) {
+			$user['user_level'] = $post['user_level'];
+			$result = $this->DashboardModel->admin_update_user($user);
+		} else {
+			$result = $this->DashboardModel->update_user($user);
+		}
+		if($result > 0) {
+			$message = 'You have sucessfully edited the personal information.';
 			$this->session->set_flashdata('message', $message);
-			$display['message'] = $this->session->flashdata('message');
-			redirect('dashboard', $display);
-		} 
+		}
+		redirect_back();
 	}
 
 	public function edit_password() {
@@ -187,8 +209,12 @@ class Dashboards extends CI_Controller {
 		$salt = bin2hex(openssl_random_pseudo_bytes(22));
 		$hash = crypt($pass, $salt);
 		$model['password'] = $hash;
-		$this->DashboardModel->update_password($model);
-		redirect('dashboard/admin');
+		$result = $this->DashboardModel->update_password($model);
+		if($result > 0) {
+			$message = 'You have successfully updated the password.';
+			$this->session->set_flashdata('message', $message);
+			redirect_back();
+		}  
 	}
 
 	public function delete_user($id) {

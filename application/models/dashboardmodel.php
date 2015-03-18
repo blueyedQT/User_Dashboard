@@ -40,9 +40,16 @@ class DashboardModel extends CI_Model {
 		return $this->db->query("SELECT * FROM user_levels")->result_array();
 	}
 
-	public function update_user($user) {
+	public function admin_update_user($user) {
 		$query = "UPDATE users SET email=?, first_name=?, last_name=?, user_level=?, updated_by=?, updated_at=? WHERE id = ?";
 		$values = array($user['email'], $user['first_name'], $user['last_name'], $user['user_level'], $user['updated_by'], date('Y-m-d, H:i:s'), $user['id']);
+		$this->db->query($query, $values);
+		return $this->db->affected_rows();
+	}
+
+	public function update_user($user) {
+		$query = "UPDATE users SET email=?, first_name=?, last_name=?, updated_by=?, updated_at=? WHERE id = ?";
+		$values = array($user['email'], $user['first_name'], $user['last_name'], $user['updated_by'], date('Y-m-d, H:i:s'), $user['id']);
 		$this->db->query($query, $values);
 		return $this->db->affected_rows();
 	}

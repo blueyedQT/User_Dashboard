@@ -1,9 +1,21 @@
 	<div class="container">
 		<h1>Edit User #<?php echo $user_info['id'] ?></h1>
+<?php 	if(!empty($message)) { ?>
+			<div class="alert alert-info" role="alert">
+				<span class="sr-only">Message:</span>
+				<?php echo $message ?>
+			</div>
+<?php	} ?>
 		<div class="row">
 			<form role="form" class="col-md-4 multiple" action="/edit_user" method="post">
 				<legend>Edit Information</legend>
 				<div class="form-group">
+<?php 	if(!empty($errors)) { ?>
+			<div class="alert alert-danger" role="alert">
+				<span class="sr-only">Message:</span>
+				<?php echo $errors ?>
+			</div>
+<?php	} ?>
 					<label for="email">Email Address:</label>
 					<input class="form-control" type="text" name="email" value="<?php echo $user_info['email'] ?>">
 				</div>
