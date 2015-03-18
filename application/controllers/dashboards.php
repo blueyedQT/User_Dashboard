@@ -243,8 +243,14 @@ class Dashboards extends CI_Controller {
 		$data['message'] = $this->input->post('message');
 		$data['page_user_id'] = $id;
 		$data['created_user_id'] = $this->session->userdata('id');
-		$this->DashboardModel->create_message($data);
-		redirect_back();
+		$result = $this->DashboardModel->create_message($data);
+		if($result > 0) {
+			$display['message_id'] = $result;
+			$display['action'] = 'add_message';
+			$display['created_user_id'] = $data['created_user_id'];
+			$display['message'] = $data['message'];
+			exit(json_encode($display));
+		}
 	}
 
 	public function comment ($id) {

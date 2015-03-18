@@ -75,7 +75,8 @@ class DashboardModel extends CI_Model {
 	public function create_message($data) {
 		$query = "INSERT INTO messages (message, page_user_id, created_user_id, created_at, updated_at) VALUES (?,?,?, Now(), NOW())";
 		$values = array($data['message'], $data['page_user_id'], $data['created_user_id']);
-		return $this->db->query($query, $values);
+		$this->db->query($query, $values);
+		return $this->db->insert_id();
 	}
 
 	public function create_comment($data) {
