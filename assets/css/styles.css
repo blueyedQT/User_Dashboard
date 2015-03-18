@@ -27,9 +27,18 @@
 	background-color: #EBF5FF;
 }
 
+.button_margin {
+	margin-bottom: 35px;
+}
+
 .comment {
 	background-color: #CCFFCC;
 	min-height: 30px;
 	padding: 15px;
 	margin-bottom: 25px;
+}
+
+.footer {
+	margin-top: 75px;
+	height: 40px;
 }

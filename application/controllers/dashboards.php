@@ -53,8 +53,6 @@ class Dashboards extends CI_Controller {
 
 	public function register() {
 		$display['errors'] = $this->session->flashdata('errors');
-		// var_dump($display);
-		// die();
 		$this->load->view('register', $display);
 	}
 
@@ -120,6 +118,7 @@ class Dashboards extends CI_Controller {
 		$display['messages'] = $this->DashboardModel->profile($id);
 		$display['comments'] = $this->DashboardModel->get_comments($id);
 		$this->load->view('profile', $display);
+		$this->load->view('templates/footer');
 	}
 
 	public function edit_profile() {
