@@ -30,7 +30,7 @@
 			<div class="row">
 				<p class="col-md-10">
 					<a href="/profile/<?php echo $message['user_id'] ?>">
-<?php 				if($message['user_id'] !== $session) {
+<?php 				if($message['user_id'] !== $user) {
 						echo $message['message_name'];
 					} else {
 						echo 'You';
@@ -47,7 +47,7 @@
 				<div class="row">
 					<p class="col-md-9 col-md-offset-1">
 						<a href="#">
-<?php 							if($comment['created_user_id'] == $session) {
+<?php 							if($comment['created_user_id'] == $user) {
 									echo 'You';
 								} else {
 									echo $comment['comment_name'];
@@ -80,18 +80,21 @@
 	<div class="footer">
 	</div>
 </body>
-<?php  	function timeAgo($timestamp){
-			$timeCalc = time() - strtotime($timestamp);
-			if($timeCalc > (24 * 60 * 60)){
-				$time = date('M d, Y', strtotime($timestamp));
-				return $time;
-			} else if($timeCalc > (60 * 60)){
-				$timeCalc = round($timeCalc/60/60) . " hours ago";
-			} else {
-				$timeCalc = round($timeCalc/60) . " minutes ago";
-			}
-			return $timeCalc;
-		} ?>
+
+<?php  	
+	function timeAgo($timestamp){
+		$timeCalc = time() - strtotime($timestamp);
+		if($timeCalc > (24 * 60 * 60)){
+			$time = date('M d, Y', strtotime($timestamp));
+			return $time;
+		} else if($timeCalc > (60 * 60)){
+			$timeCalc = round($timeCalc/60/60) . " hours ago";
+		} else {
+			$timeCalc = round($timeCalc/60) . " minutes ago";
+		}
+		return $timeCalc;
+	} 
+?>
 
 <script type="text/javascript">
 	$(document).on("submit", "form", function(){

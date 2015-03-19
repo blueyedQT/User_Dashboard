@@ -10,10 +10,16 @@ class Dashboards extends CI_Controller {
 	}
 
 	public function index() {
+		if($this->session->userdata('loggedin')){
+			redirect('dashboard');
+		}
 		$this->load->view('home');
 	}
 
 	public function signin() {
+		if($this->session->userdata('loggedin')){
+			redirect('dashboard');
+		}
 		$display['errors'] = $this->session->flashdata('errors');
 		$this->load->view('signin', $display);
 	}
@@ -52,6 +58,9 @@ class Dashboards extends CI_Controller {
 	}
 
 	public function register() {
+		if($this->session->userdata('loggedin')){
+			redirect('dashboard');
+		}
 		$display['errors'] = $this->session->flashdata('errors');
 		$this->load->view('register', $display);
 	}
@@ -105,7 +114,7 @@ class Dashboards extends CI_Controller {
 			$display['users'] = $this->DashboardModel->get_all_users();
 			$this->load->view('user_dashboard', $display);
 		} else {
-			redirect ('');
+			redirect('');
 		}
 	}
 
@@ -115,53 +124,25 @@ class Dashboards extends CI_Controller {
 			$display['users'] = $this->DashboardModel->get_all_users();
 			$this->load->view('admin_dashboard', $display);
 		} else {
-			redirect ('');
+			redirect('');
 		}
 	}
 
 	public function profile($id) {
-		$this->load->model('DashboardModel');
-		$display['session'] = $this->session->userdata('id');
-		$display['user_info'] = $this->DashboardModel->get_user($id);
-		$display['errors'] = $this->session->flashdata('errors');
-		$display['messages'] = $this->DashboardModel->profile($id);
-		$display['comments'] = $this->DashboardModel->get_comments($id);
-		$this->load->view('profile', $display);
-	}
-
-	public function edit_profile() {
-		$id = $this->session->userdata('id');
-		$display['message'] = $this->session->flashdata('message');
-		$display['errors'] = $this->session->flashdata('errors');
-		$display['errors_password'] = $this->session->flashdata('errors_password');
-		$display['errors_description'] = $this->session->flashdata('errors_description');
-		$this->load->model('DashboardModel');
-		$display['user_info'] = $this->DashboardModel->get_user($id);
-		$this->load->view('edit_profile', $display);
-	}
-
-	public function edit_description() {
-		$this->form_validation->set_rules('description', 'Profile Description', 'required|trim|alpha|min_length[2]');
-		if($this->form_validation->run() == FALSE) {
-			$this->view_data['errors'] = validation_errors();
-			$this->session->set_flashdata('errors_description', $this->view_data['errors']);
-			redirect_back();
+		if($this->session->userdata('loggedin')) {
+			$this->load->model('DashboardModel');
+			$display['user_info'] = $this->DashboardModel->get_user($id);
+			$display['errors'] = $this->session->flashdata('errors');
+			$display['messages'] = $this->DashboardModel->profile($id);
+			$display['comments'] = $this->DashboardModel->get_comments($id);
+			$this->load->view('profile', $display);
+		} else {
+			redirect('');
 		}
-		$user['description'] = $this->input->post('description');
-		$user['id'] = $this->input->post('id');
-		$result = $this->DashboardModel->update_description($user);
-		if($result > 0) {
-			$message = 'You have successfully updated your profile description.';
-			$this->session->set_flashdata('message', $message);
-			redirect('edit_profile');
-		} 
 	}
 
-/// I think this one is not really being used...??? ///
 	public function edit($id) {
-// need to be sure that one can only edit if logged in as admin or if they are the logged in user
-		$session = $this->session->all_userdata();
-		if(!empty($session['admin'])) {
+		if(!empty($this->session->userdata('admin'))) {
 			$this->load->model('DashboardModel');
 			$user_info = $this->DashboardModel->get_user($id);
 			$admin_levels = $this->DashboardModel->get_admin_levels();
@@ -172,10 +153,24 @@ class Dashboards extends CI_Controller {
 			$display['message'] = $this->session->flashdata('message');
 			$this->load->view('edit_user', $display);
 		} else {
+			redirect('edit_profile');
+		}
+	}
+
+	public function edit_profile() {
+		$id = $this->session->userdata('id');
+		if($id) {
+			$display['message'] = $this->session->flashdata('message');
+			$display['errors'] = $this->session->flashdata('errors');
+			$display['errors_password'] = $this->session->flashdata('errors_password');
+			$display['errors_description'] = $this->session->flashdata('errors_description');
+			$this->load->model('DashboardModel');
+			$display['user_info'] = $this->DashboardModel->get_user($id);
+			$this->load->view('edit_profile', $display);
+		} else {
 			redirect('');
 		}
 	}
-/////////////////////////////////////////////////////////
 
 	public function edit_user() {
 		$this->form_validation->set_rules('email', 'Email Address', 'required|valid_email');
@@ -228,10 +223,31 @@ class Dashboards extends CI_Controller {
 		}  
 	}
 
+	public function edit_description() {
+		$this->form_validation->set_rules('description', 'Profile Description', 'required|trim|alpha|min_length[2]');
+		if($this->form_validation->run() == FALSE) {
+			$this->view_data['errors'] = validation_errors();
+			$this->session->set_flashdata('errors_description', $this->view_data['errors']);
+			redirect_back();
+		}
+		$user['description'] = $this->input->post('description');
+		$user['id'] = $this->input->post('id');
+		$result = $this->DashboardModel->update_description($user);
+		if($result > 0) {
+			$message = 'You have successfully updated your profile description.';
+			$this->session->set_flashdata('message', $message);
+			redirect('edit_profile');
+		} 
+	}
+
 	public function delete_user($id) {
-		$this->load->model('DashboardModel');
-		$this->DashboardModel->delete_user($id);
-		redirect('dashboard/admin');
+		if($this->session->userdata('admin')) {
+			$this->load->model('DashboardModel');
+			$this->DashboardModel->delete_user($id);
+			redirect('dashboard/admin');
+		} else {
+			redirect('');
+		}
 	}
 
 	public function message($id) {
