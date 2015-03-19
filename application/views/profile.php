@@ -28,16 +28,32 @@
 			foreach($messages as $message) {
 				if($message['id'] !== null) { ?>
 			<div class="row">
-				<p class="col-md-10"><a href="/profile/<?php echo $message['user_id'] ?>"><?php echo $message['message_name'] ?></a> wrote:</p>
+				<p class="col-md-10">
+					<a href="/profile/<?php echo $message['user_id'] ?>">
+<?php 				if($message['user_id'] !== $session) {
+						echo $message['message_name'];
+					} else {
+						echo 'You';
+					} ?>
+					</a> wrote:
+				</p>
 				<p class="col-md-2 text-right"><?php echo timeAgo($message['created_at']) ?></p>
 			</div>
 			<div class="row message"><?php echo $message['message'] ?></div>
 			<div class="message_<?php echo $message['id'] ?>">
 <?php 				if(!empty($comments)) {
-						foreach ($comments as $comment) {
+						foreach($comments as $comment) {
 							if($comment['message_id'] == $message['id']) { ?>
 				<div class="row">
-					<p class="col-md-9 col-md-offset-1"><a href="#"><?php echo $comment['comment_name'] ?></a> wrote:</p>
+					<p class="col-md-9 col-md-offset-1">
+						<a href="#">
+<?php 							if($comment['created_user_id'] == $session) {
+									echo 'You';
+								} else {
+									echo $comment['comment_name'];
+								} ?>
+						</a> wrote:
+					</p>
 					<p class="col-md-2 text-right"><?php echo timeAgo($comment['created_at']) ?></p>
 				</div>
 				<div class="row">
@@ -71,7 +87,7 @@
 				return $time;
 			} else if($timeCalc > (60 * 60)){
 				$timeCalc = round($timeCalc/60/60) . " hours ago";
-			} else if($timeCalc > 60){
+			} else {
 				$timeCalc = round($timeCalc/60) . " minutes ago";
 			}
 			return $timeCalc;
@@ -88,7 +104,7 @@
 					$('textarea').val('');
 					$('#all_messages').prepend(
 						"<div class='row'>"+
-							"<p class='col-md-10'>You wrote:</p>"+
+							"<p class='col-md-10'><a href='/profile/"+output.user_id+"'>You </a>wrote:</p>"+
 							"<p class='col-md-2 text-right'>1 minute ago</p>"+
 						"</div>"+
 						"<div class='row message'>"+output.message+"</div>"+				
@@ -111,8 +127,6 @@
 						'<div class="row">'+
 							'<div class="outline comment col-md-11 col-md-offset-1">'+output.comment+'</div>'+
 						'</div>');
-				// } else if(output.action == 'delete') {
-				// 	$(thisOne).parent().remove();
 				}
 			}, "json"
 		);

@@ -121,6 +121,7 @@ class Dashboards extends CI_Controller {
 
 	public function profile($id) {
 		$this->load->model('DashboardModel');
+		$display['session'] = $this->session->userdata('id');
 		$display['user_info'] = $this->DashboardModel->get_user($id);
 		$display['errors'] = $this->session->flashdata('errors');
 		$display['messages'] = $this->DashboardModel->profile($id);
