@@ -32,19 +32,21 @@
 				<p class="col-md-2 text-right"><?php echo timeAgo($message['created_at']) ?></p>
 			</div>
 			<div class="row message"><?php echo $message['message'] ?></div>
+			<div class="message_<?php echo $message['id'] ?>">
 <?php 				if(!empty($comments)) {
 						foreach ($comments as $comment) {
 							if($comment['message_id'] == $message['id']) { ?>
-			<div class="row">
-				<p class="col-md-9 col-md-offset-1"><a href="#"><?php echo $comment['comment_name'] ?></a> wrote:</p>
-				<p class="col-md-2 text-right"><?php echo timeAgo($comment['created_at']) ?></p>
-			</div>
-			<div class="row">
-				<div class="outline comment col-md-11 col-md-offset-1"><?php echo $comment['comment'] ?></div>
-			</div>
+				<div class="row">
+					<p class="col-md-9 col-md-offset-1"><a href="#"><?php echo $comment['comment_name'] ?></a> wrote:</p>
+					<p class="col-md-2 text-right"><?php echo timeAgo($comment['created_at']) ?></p>
+				</div>
+				<div class="row">
+					<div class="outline comment col-md-11 col-md-offset-1"><?php echo $comment['comment'] ?></div>
+				</div>
 <?php 						}
 						}
 					} ?>
+			</div>
 			<form role="form" class="col-md-offset-1" action="/post_comment/<?php echo $message['id'] ?>" method="post">
 				<div class="row form-group">
 					<textarea class="form-control" name="comment"></textarea>
@@ -62,105 +64,59 @@
 	<div class="footer">
 	</div>
 </body>
-<?php  	function timeAgo($timestamp) {
+<?php  	function timeAgo($timestamp){
 			$timeCalc = time() - strtotime($timestamp);
-			if ($timeCalc > (24 * 60 * 60)) {
+			if($timeCalc > (24 * 60 * 60)){
 				$time = date('M d, Y', strtotime($timestamp));
 				return $time;
-			} else if ($timeCalc > (60 * 60)) {
+			} else if($timeCalc > (60 * 60)){
 				$timeCalc = round($timeCalc/60/60) . " hours ago";
-			} else if ($timeCalc > 60) {
+			} else if($timeCalc > 60){
 				$timeCalc = round($timeCalc/60) . " minutes ago";
 			}
 			return $timeCalc;
 		} ?>
 
 <script type="text/javascript">
-		$(document).on("submit", ".message_form", function() {
-			thisOne = this;
-			$.post(
-				$(this).attr('action'),
-				$(this).serialize(),
-				function(output) {
-					if(output.action == 'add_message') {
-						$('textarea').val('');
-						$('#all_messages').prepend(
-							"<div class='row'>"+
-								"<p class='col-md-10'>You wrote:</p>"+
-								"<p class='col-md-2 text-right'>1 minute ago</p>"+
+	$(document).on("submit", "form", function(){
+		thisOne = this;
+		$.post(
+			$(this).attr('action'),
+			$(this).serialize(),
+			function(output) {
+				if(output.action == 'add_message'){
+					$('textarea').val('');
+					$('#all_messages').prepend(
+						"<div class='row'>"+
+							"<p class='col-md-10'>You wrote:</p>"+
+							"<p class='col-md-2 text-right'>1 minute ago</p>"+
+						"</div>"+
+						"<div class='row message'>"+output.message+"</div>"+				
+						"<form role='form' class='col-md-offset-1' action='/post_comment/'"+output.id+"' method='post'>"+
+							"<div class='row form-group'>"+
+								"<textarea class='form-control' name='comment'></textarea>"+
 							"</div>"+
-							"<div class='row message'>"+output.message+"</div>"+				
-							"<form role='form' class='col-md-offset-1' action='/post_comment/'"+output.id+"' method='post'>"+
-								"<div class='row form-group'>"+
-									"<textarea class='form-control' name='comment'></textarea>"+
-								"</div>"+
-								"<input type='hidden' name='user' value='<?php echo $user_info['id'] ?>'>"+
-								"<div class='row'>"+
-									"<button class='col-md-2 col-md-offset-10 btn btn-success button_margin' type='submit'>Post Comment</button>"+
-								"</div>"+
-							"</form>");
-					// } else if(output.action == 'delete') {
-					// 	$(thisOne).parent().remove();
-					}
-				}, "json"
-			);
-			return false;
-		});
+							"<input type='hidden' name='user' value='"+output.user_id+"'>"+
+							"<div class='row'>"+
+								"<button class='col-md-2 col-md-offset-10 btn btn-success button_margin' type='submit'>Post Comment</button>"+
+							"</div>"+
+						"</form>");
+				} else if(output.action == 'add_comment'){
+					$('textarea').val('');
+					$('.message_'+output.message_id).append(
+						'<div class="row">'+
+							'<p class="col-md-9 col-md-offset-1"><a href="'+output.user_id+'">You</a> wrote:</p>'+
+							'<p class="col-md-2 text-right">1 minute ago</p>'+
+						'</div>'+
+						'<div class="row">'+
+							'<div class="outline comment col-md-11 col-md-offset-1">'+output.comment+'</div>'+
+						'</div>');
+				// } else if(output.action == 'delete') {
+				// 	$(thisOne).parent().remove();
+				}
+			}, "json"
+		);
+		return false;
+	});
 </script>
-<!--<script>
-// 	$(document).ready(function(){
-// 		$('.message_form').submit(function(){
-// 			thisOne = this;
-// 			$.post(
-// 				$(this).attr('action'),
-// 				$(this).serialize(),
-// 				function(data) {
-// 					if(data.action == 'add') {
-// 						$('#all_messages').append(
-// 							"<div class='message'>"+
-// 								"<h3>"+output.message+"</h3>"+
-// 	// 							// "<form class='update' action='update_note' method='post'>"+
-// 	// 							// 	"<input type='text' name='description' value='"+output.description+"'>"+
-// 	// 							// 	"<input type='hidden' name='id' value='"+output.id+"'>"+
-// 	// 							// "</form>"+
-// 	// 							// "<form class='delete' action='delete' method='post'>"+
-// 	// 							// 	"<input type='hidden' name='id' value='"+output.id+"'>"+
-// 	// 							// 	"<input type='submit' name='delete' value='Delete'>"+
-// 	// 							// "</form>"+
-// 							"</div>");
-// 	// 				} 
-// 	// 				// else if(output.action == 'delete') {
-// 	// 				// 	$(thisOne).parent().remove();
-// 					}
-// 				}, "json"
-// 			);
-// 			return false;
-// 		});
-
-// 	// console.log($(this).attr('action'));
-// 	// 		thisOne = this;
-// 	// 		$.post(
-// 	// 			$(this).attr('action'),
-// 	// 			$(this).serialize(),
-// 	// 			function(output) {
-// 	// 				if(output.action == 'add') {
-// 	// 					$('#all_notes').prepend(
-// 	// 						"<div class='note'>"+
-// 	// 							"<h3>"+output.title+"</h3>"+
-// 	// 							"<form class='update' action='update_note' method='post'>"+
-// 	// 								"<input type='text' name='description' value='"+output.description+"'>"+
-// 	// 								"<input type='hidden' name='id' value='"+output.id+"'>"+
-// 	// 							"</form>"+
-// 	// 							"<form class='delete' action='delete' method='post'>"+
-// 	// 								"<input type='hidden' name='id' value='"+output.id+"'>"+
-// 	// 								"<input type='submit' name='delete' value='Delete'>"+
-// 	// 							"</form>"+
-// 	// 						"</div>");
-// 	// 				} else if(output.action == 'delete') {
-// 	// 					$(thisOne).parent().remove();
-// 	// 				}
-// 	// 			}, "json"
-// 	// 		);
-// 	// 		return false;
-// </script> -->
 </html>

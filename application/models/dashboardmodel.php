@@ -82,7 +82,8 @@ class DashboardModel extends CI_Model {
 	public function create_comment($data) {
 		$query = "INSERT INTO comments (comment, message_id, created_user_id, created_at, updated_at) VALUES (?,?,?, NOW(), NOW())";
 		$values = array($data['comment'], $data['message_id'], $data['created_user_id']);
-		return $this->db->query($query, $values);
+		$this->db->query($query, $values);
+		return $this->db->insert_id();
 	}
 
 // need to decide if I need both this and get_user($id).

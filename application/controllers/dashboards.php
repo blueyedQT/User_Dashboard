@@ -247,7 +247,7 @@ class Dashboards extends CI_Controller {
 		if($result > 0) {
 			$display['message_id'] = $result;
 			$display['action'] = 'add_message';
-			$display['created_user_id'] = $data['created_user_id'];
+			$display['user_id'] = $data['created_user_id'];
 			$display['message'] = $data['message'];
 			exit(json_encode($display));
 		}
@@ -264,8 +264,15 @@ class Dashboards extends CI_Controller {
 		$data['message_id'] = $id;
 		$data['created_user_id'] = $this->session->userdata('id');
 		$user = $this->input->post('id');
-		$this->DashboardModel->create_comment($data);
-		redirect_back();
+		$result = $this->DashboardModel->create_comment($data);
+		if($result > 0) {
+			$display['comment_id'] = $result;
+			$display['action'] = 'add_comment';
+			$display['user_id'] = $data['created_user_id'];
+			$display['comment'] = $data['comment'];
+			$display['message_id'] = $data['message_id'];
+			exit(json_encode($display));
+		}
 	}
 
 }
