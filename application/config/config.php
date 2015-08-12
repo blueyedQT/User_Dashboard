@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://kursodevelopment.com';
+$config['base_url']	= 'http://kursodevelopment.com/user_dashboard';
 
 /*
 |--------------------------------------------------------------------------
