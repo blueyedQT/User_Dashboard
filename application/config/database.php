@@ -48,10 +48,16 @@
 $active_group = 'default';
 $active_record = TRUE;
 
+// $db['default']['hostname'] = 'localhost';
+// $db['default']['username'] = 'root';
+// $db['default']['password'] = 'root';
+// $db['default']['database'] = 'ci_dashboard';
+
 $db['default']['hostname'] = 'localhost';
-$db['default']['username'] = 'root';
-$db['default']['password'] = '';
-$db['default']['database'] = 'ci_dashboard';
+$db['default']['username'] = 'ksanford_portfol';
+$db['default']['password'] = 'P0r7f0l!0';
+$db['default']['database'] = 'ksanford_user_dashboard';
+
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = '';
 $db['default']['pconnect'] = TRUE;
