@@ -30,7 +30,7 @@
 				<input type="hidden" name="id" value="<?php echo $user_info['id'] ?>">
 				<button class="btn btn-primary" type="submit" name="submit">Save</button>
 			</form>
-			<form role="form" class="col-md-4 col-md-offset-2 multiple" action="/edit_password" method="post">
+			<form role="form" class="col-md-4 col-md-offset-2 multiple" action="edit_password" method="post">
 				<legend>Change Password</legend>
 <?php 	if(!empty($errors_password)) { ?>
 				<div class="alert alert-danger" role="alert">

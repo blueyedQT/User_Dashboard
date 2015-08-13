@@ -208,26 +208,26 @@ class Dashboards extends CI_Controller {
 		redirect_back();
 	}
 
-	// public function edit_password() {
-	// 	$this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
-	// 	$this->form_validation->set_rules('password2', 'Confirm Password', 'required|matches[password]');
-	// 	if($this->form_validation->run() == FALSE) {
-	// 		$this->view_data['errors'] = validation_errors();
-	// 		$this->session->set_flashdata('errors_password', $this->view_data['errors']);
-	// 		redirect_back();
-	// 	}
-	// 	$model = $this->input->post();
-	// 	$pass = $model['password'];
-	// 	$salt = bin2hex(openssl_random_pseudo_bytes(22));
-	// 	$hash = crypt($pass, $salt);
-	// 	$model['password'] = $hash;
-	// 	$result = $this->DashboardModel->update_password($model);
-	// 	if($result > 0) {
-	// 		$message = 'You have successfully updated the password.';
-	// 		$this->session->set_flashdata('message', $message);
-	// 		redirect_back();
-	// 	}  
-	// }
+	public function edit_password() {
+		$this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
+		$this->form_validation->set_rules('password2', 'Confirm Password', 'required|matches[password]');
+		if($this->form_validation->run() == FALSE) {
+			$this->view_data['errors'] = validation_errors();
+			$this->session->set_flashdata('errors_password', $this->view_data['errors']);
+			redirect_back();
+		}
+		$model = $this->input->post();
+		$pass = $model['password'];
+		$salt = bin2hex(openssl_random_pseudo_bytes(22));
+		$hash = crypt($pass, $salt);
+		$model['password'] = $hash;
+		$result = $this->DashboardModel->update_password($model);
+		if($result > 0) {
+			$message = 'You have successfully updated the password.';
+			$this->session->set_flashdata('message', $message);
+			redirect_back();
+		}  
+	}
 
 	// public function edit_description() {
 	// 	$this->form_validation->set_rules('description', 'Profile Description', 'required|trim|alpha|min_length[2]');
