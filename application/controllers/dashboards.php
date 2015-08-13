@@ -4,6 +4,8 @@ class Dashboards extends CI_Controller {
 
 	public function __construct(){
 		parent::__construct();
+		// $this->session->sess_destroy();
+
 		$display['loggedin'] = $this->session->userdata('loggedin');
 		$display['user'] = $this->session->userdata('id');
 		$this->load->view('templates/header', $display);
@@ -65,58 +67,61 @@ class Dashboards extends CI_Controller {
 		$this->load->view('register', $display);
 	}
 
-	// // public function add_new() {
-	// // 	if(!empty($this->session->userdata('admin'))) {
-	// // 		$this->load->view('add_user');
-	// // 	} else {
-	// // 		redirect('register');
-	// // 	}
-	// // }
-
-	// public function register_user() {
-	// 	$this->form_validation->set_rules('email', 'Email Address', 'required|valid_email|is_unique[users.email]');
-	// 	$this->form_validation->set_rules('first_name', 'First Name', 'required|trim|alpha|min_length[2]');
-	// 	$this->form_validation->set_rules('last_name', 'Last Name', 'required|trim|alpha|min_length[2]');
-	// 	$this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
-	// 	$this->form_validation->set_rules('password2', 'Confirm Password', 'required|matches[password]');
-	// 	if($this->form_validation->run() == FALSE) {
-	// 		$this->view_data['errors'] = validation_errors();
-	// 		$this->session->set_flashdata('errors', $this->view_data['errors']);
-	// 		redirect('register');
+	// public function add_new() {
+	// 	if(!empty($this->session->userdata('admin'))) {
+	// 		$this->load->view('add_user');
 	// 	} else {
-	// 		$this->load->model('DashboardModel');
-	// 		$post = $this->input->post();
-	// 		$email = $this->DashboardModel->check_email($post['email']);
-	// 		$model = array();
-	// 		$model['first_name'] = $post['first_name'];
-	// 		$model['last_name'] = $post['last_name'];
-	// 		$model['email'] = $post['email'];
-	// 		$pass = $post['password'];
-	// 		$salt = bin2hex(openssl_random_pseudo_bytes(22));
-	// 		$hash = crypt($pass, $salt);
-	// 		$model['password'] = $hash;
-	// 		$add_user = $this->DashboardModel->register_user($model);
-	// 		if($add_user == FALSE) {
-	// 			$this->session->set_flashdata['errors'] = 'There was a system error, please try again.';
-	// 			redirect('register');
-	// 		}
-	// 		$this->session->set_userdata('loggedin', TRUE);
-	// 		$this->session->set_userdata('id', $add_user);
-	// 		redirect('dashboard');	
-	// 	}	
+	// 		redirect('register');
+	// 	}
 	// }
 
-	// // public function dashboard() {
-	// // 	if(!empty($this->session->userdata('admin'))) {
-	// // 		redirect('/dashboard/admin', $display);
-	// // 	} else if(!empty($this->session->userdata('id'))) {
-	// // 		$this->load->Model('DashboardModel');
-	// // 		$display['users'] = $this->DashboardModel->get_all_users();
-	// // 		$this->load->view('user_dashboard', $display);
-	// // 	} else {
-	// // 		redirect('');
-	// // 	}
-	// // }
+	public function register_user() {
+		$this->form_validation->set_rules('email', 'Email Address', 'required|valid_email|is_unique[users.email]');
+		$this->form_validation->set_rules('first_name', 'First Name', 'required|trim|alpha|min_length[2]');
+		$this->form_validation->set_rules('last_name', 'Last Name', 'required|trim|alpha|min_length[2]');
+		$this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
+		$this->form_validation->set_rules('password2', 'Confirm Password', 'required|matches[password]');
+		if($this->form_validation->run() == FALSE) {
+			$this->view_data['errors'] = validation_errors();
+			$this->session->set_flashdata('errors', $this->view_data['errors']);
+			redirect('register');
+		} else {
+			$this->load->model('DashboardModel');
+			$post = $this->input->post();
+			$email = $this->DashboardModel->check_email($post['email']);
+			$model = array();
+			$model['first_name'] = $post['first_name'];
+			$model['last_name'] = $post['last_name'];
+			$model['email'] = $post['email'];
+			$pass = $post['password'];
+			$salt = bin2hex(openssl_random_pseudo_bytes(22));
+			$hash = crypt($pass, $salt);
+			$model['password'] = $hash;
+			$add_user = $this->DashboardModel->register_user($model);
+			if($add_user == FALSE) {
+				$this->session->set_flashdata['errors'] = 'There was a system error, please try again.';
+				redirect('register');
+			}
+			$this->session->set_userdata('loggedin', TRUE);
+			$this->session->set_userdata('id', $add_user);
+			redirect('dashboard');	
+		}	
+	}
+
+	public function dashboard() {
+		// if(!empty($this->session->userdata('admin'))) {
+		// 	redirect('/dashboard/admin', $display);
+		// } else 
+		var_dump($this->session->userdata('id'));
+		die();
+		// if(!empty($this->session->userdata('id'))) {
+		// 	$this->load->Model('DashboardModel');
+		// 	$display['users'] = $this->DashboardModel->get_all_users();
+		// 	$this->load->view('user_dashboard', $display);
+		// } else {
+		// 	redirect('index');
+		// }
+	}
 
 	// // public function admin() {
 	// // 	if(!empty($this->session->userdata('admin'))) {
