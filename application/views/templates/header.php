@@ -2,17 +2,13 @@
 <html lang="en">
 <head>
 	<meta charset="UTF-8">
-	<!-- add in custome title -->
-	<title>Dashboard</title>
-	<link rel="stylesheet" href="assets/css/bootstrap.min.css">
+	<title>User Dashboard</title>
+	<link rel="stylesheet" href="<?php echo base_url('assets/css/bootstrap.min.css'); ?>">
 	<!-- Optional theme -->
-	<link rel="stylesheet" href="assets/css/bootstrap-theme.min.css">
+	<link rel="stylesheet" href="a<?php echo base_url('assets/css/bootstrap-theme.min.css'); ?>">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script src="assets/js/bootstrap.min.js"></script>
-
-	<!-- <link rel="stylesheet" type="text/css" href="assets/css/styles.css"> -->
-	<link rel="stylesheet" type="text/css" href="<?php echo base_url('/assets/css/styles.css'); ?>"><!-- Should I direct on full domain or just file path? -->
-
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url('assets/css/styles.css'); ?>">
 </head>
 <body>
 	<!-- Navigation Bar -->
