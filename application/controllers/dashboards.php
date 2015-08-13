@@ -109,18 +109,15 @@ class Dashboards extends CI_Controller {
 	}
 
 	public function dashboard() {
-		// if(!empty($this->session->userdata('admin'))) {
-		// 	redirect('/dashboard/admin', $display);
-		// } else 
-		var_dump($this->session->userdata('id'));
-		die();
-		// if(!empty($this->session->userdata('id'))) {
-		// 	$this->load->Model('DashboardModel');
-		// 	$display['users'] = $this->DashboardModel->get_all_users();
-		// 	$this->load->view('user_dashboard', $display);
-		// } else {
-		// 	redirect('index');
-		// }
+		if($this->session->userdata('admin')) {
+			redirect('/dashboard/admin', $display);
+		} else if($this->session->userdata('id')) {
+			$this->load->Model('DashboardModel');
+			$display['users'] = $this->DashboardModel->get_all_users();
+			$this->load->view('user_dashboard', $display);
+		} else {
+			redirect('home');
+		}
 	}
 
 	// // public function admin() {
