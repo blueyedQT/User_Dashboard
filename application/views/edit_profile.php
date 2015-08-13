@@ -7,7 +7,7 @@
 		</div>
 <?php	} ?>
 		<div class="row">
-			<form role="form" class="col-md-4 multiple" action="/edit_user" method="post">
+			<form role="form" class="col-md-4 multiple" action="edit_user" method="post">
 				<legend>Edit Information</legend>
 <?php 	if(!empty($errors)) { ?>
 				<div class="alert alert-danger" role="alert">

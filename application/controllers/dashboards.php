@@ -134,18 +134,18 @@ class Dashboards extends CI_Controller {
 	// // 	}
 	// // }
 
-	public function profile($id) {
-		if($this->session->userdata('loggedin')) {
-			$this->load->model('DashboardModel');
-			$display['user_info'] = $this->DashboardModel->get_user($id);
-			$display['errors'] = $this->session->flashdata('errors');
-			$display['messages'] = $this->DashboardModel->profile($id);
-			$display['comments'] = $this->DashboardModel->get_comments($id);
-			$this->load->view('profile', $display);
-		} else {
-			redirect('');
-		}
-	}
+	// public function profile($id) {
+	// 	if($this->session->userdata('loggedin')) {
+	// 		$this->load->model('DashboardModel');
+	// 		$display['user_info'] = $this->DashboardModel->get_user($id);
+	// 		$display['errors'] = $this->session->flashdata('errors');
+	// 		$display['messages'] = $this->DashboardModel->profile($id);
+	// 		$display['comments'] = $this->DashboardModel->get_comments($id);
+	// 		$this->load->view('profile', $display);
+	// 	} else {
+	// 		redirect('');
+	// 	}
+	// }
 
 	// // public function edit($id) {
 	// // 	if(!empty($this->session->userdata('admin'))) {
@@ -163,50 +163,50 @@ class Dashboards extends CI_Controller {
 	// // 	}
 	// // }
 
-	// public function edit_profile() {
-	// 	$id = $this->session->userdata('id');
-	// 	if($id) {
-	// 		$display['message'] = $this->session->flashdata('message');
-	// 		$display['errors'] = $this->session->flashdata('errors');
-	// 		$display['errors_password'] = $this->session->flashdata('errors_password');
-	// 		$display['errors_description'] = $this->session->flashdata('errors_description');
-	// 		$this->load->model('DashboardModel');
-	// 		$display['user_info'] = $this->DashboardModel->get_user($id);
-	// 		$this->load->view('edit_profile', $display);
-	// 	} else {
-	// 		redirect('');
-	// 	}
-	// }
+	public function edit_profile() {
+		$id = $this->session->userdata('id');
+		if($id) {
+			$display['message'] = $this->session->flashdata('message');
+			$display['errors'] = $this->session->flashdata('errors');
+			$display['errors_password'] = $this->session->flashdata('errors_password');
+			$display['errors_description'] = $this->session->flashdata('errors_description');
+			$this->load->model('DashboardModel');
+			$display['user_info'] = $this->DashboardModel->get_user($id);
+			$this->load->view('edit_profile', $display);
+		} else {
+			redirect('');
+		}
+	}
 
-	// public function edit_user() {
-	// 	$this->form_validation->set_rules('email', 'Email Address', 'required|valid_email');
-	// 	$this->form_validation->set_rules('first_name', 'First Name', 'required|trim|alpha|min_length[2]');
-	// 	$this->form_validation->set_rules('last_name', 'Last Name', 'required|trim|alpha|min_length[2]');
-	// 	if($this->form_validation->run() == FALSE) {
-	// 		$this->view_data['errors'] = validation_errors();
-	// 		$this->session->set_flashdata('errors', $this->view_data['errors']);
-	// 		redirect_back();
-	// 	}
-	// 	$updater_id = $this->session->userdata('id');
-	// 	$this->load->model('DashboardModel');
-	// 	$post = $this->input->post();
-	// 	$user['email'] = $post['email'];
-	// 	$user['first_name'] = $post['first_name'];
-	// 	$user['last_name'] = $post['last_name'];
-	// 	$user['updated_by'] = $updater_id;
-	// 	$user['id'] = $post['id'];
-	// 	if($updater_id !== $post['id']) {
-	// 		$user['user_level'] = $post['user_level'];
-	// 		$result = $this->DashboardModel->admin_update_user($user);
-	// 	} else {
-	// 		$result = $this->DashboardModel->update_user($user);
-	// 	}
-	// 	if($result > 0) {
-	// 		$message = 'You have sucessfully edited the personal information.';
-	// 		$this->session->set_flashdata('message', $message);
-	// 	}
-	// 	redirect_back();
-	// }
+	public function edit_user() {
+		$this->form_validation->set_rules('email', 'Email Address', 'required|valid_email');
+		$this->form_validation->set_rules('first_name', 'First Name', 'required|trim|alpha|min_length[2]');
+		$this->form_validation->set_rules('last_name', 'Last Name', 'required|trim|alpha|min_length[2]');
+		if($this->form_validation->run() == FALSE) {
+			$this->view_data['errors'] = validation_errors();
+			$this->session->set_flashdata('errors', $this->view_data['errors']);
+			redirect_back();
+		}
+		$updater_id = $this->session->userdata('id');
+		$this->load->model('DashboardModel');
+		$post = $this->input->post();
+		$user['email'] = $post['email'];
+		$user['first_name'] = $post['first_name'];
+		$user['last_name'] = $post['last_name'];
+		$user['updated_by'] = $updater_id;
+		$user['id'] = $post['id'];
+		if($updater_id !== $post['id']) {
+			$user['user_level'] = $post['user_level'];
+			$result = $this->DashboardModel->admin_update_user($user);
+		} else {
+			$result = $this->DashboardModel->update_user($user);
+		}
+		if($result > 0) {
+			$message = 'You have sucessfully edited the personal information.';
+			$this->session->set_flashdata('message', $message);
+		}
+		redirect_back();
+	}
 
 	// public function edit_password() {
 	// 	$this->form_validation->set_rules('password', 'Password', 'required|min_length[6]');
