@@ -12,7 +12,7 @@ class Dashboards extends CI_Controller {
 	}
 
 	public function index() {
-		if($this->session->userdata('loggedin')){
+		if($this->session->userdata('loggedin') == TRUE){
 			redirect('dashboard');
 		}
 		$this->load->view('home');
@@ -26,38 +26,42 @@ class Dashboards extends CI_Controller {
 		$this->load->view('signin', $display);
 	}
 
-	// public function signin_user() {
-	// 	$post = $this->input->post();
-	// 	$this->form_validation->set_rules('email', 'Email', 'required|valid_email');
-	// 	$this->form_validation->set_rules('password', 'Password', 'required');
-	// 	if($this->form_validation->run() == FALSE) {
-	// 		$this->view_data['errors'] = validation_errors();
-	// 		$this->session->set_flashdata('errors', $this->view_data['errors']);
-	// 		redirect('signin');
-	// 	} else {
-	// 		$this->load->model('DashboardModel');
-	// 		$email = $post['email'];
-	// 		$password = $post['password'];
-	// 		$user = $this->DashboardModel->login_db($email);
-	// 		if ($user != NULL) {
-	// 			if(crypt($password, $user['password']) == $user['password']) {
-	// 				$this->session->set_userdata('id', $user['id']);
-	// 				$this->session->set_userdata('loggedin', TRUE);
-	// 				if($user['user_level'] > 1) {
-	// 					$this->session->set_userdata('admin', $user['user_level']);
-	// 				}
-	// 				redirect('dashboard');
-	// 			}
-	// 		}
-	// 		$this->session->set_flashdata('errors', 'The email and password combination is not valid');
-	// 		redirect('signin');
-	// 	}
-	// }
+	public function signin_user() {
+		$post = $this->input->post();
+		$this->form_validation->set_rules('email', 'Email', 'required|valid_email');
+		$this->form_validation->set_rules('password', 'Password', 'required');
+		if($this->form_validation->run() == FALSE) {
+			$this->view_data['errors'] = validation_errors();
+			$this->session->set_flashdata('errors', $this->view_data['errors']);
+			redirect('signin');
+		} else {
+			$this->load->model('DashboardModel');
+			$email = $post['email'];
+			$password = $post['password'];
+			$user = $this->DashboardModel->login_db($email);
+			if ($user != NULL) {
+				if(crypt($password, $user['password']) == $user['password']) {
+					$this->session->set_userdata('id', $user['id']);
+					$this->session->set_userdata('loggedin', TRUE);
+					if($user['user_level'] > 1) {
+						$this->session->set_userdata('admin', $user['user_level']);
+					}
+					redirect('dashboard');
+				}
+			}
+			$this->session->set_flashdata('errors', 'The email and password combination is not valid');
+			redirect('signin');
+		}
+	}
 
-	// public function logout() {
-	// 	$this->session->sess_destroy();
-	// 	redirect('');
-	// }
+	public function logout() {
+		$this->session->sess_destroy();
+		$this->session->set_userdata('loggedin', FALSE);
+		// var_dump($this->session->all_userdata());
+		// die('Logout');
+
+		redirect('');
+	}
 
 	public function register() {
 		if($this->session->userdata('loggedin')){
@@ -116,7 +120,7 @@ class Dashboards extends CI_Controller {
 			$display['users'] = $this->DashboardModel->get_all_users();
 			$this->load->view('user_dashboard', $display);
 		} else {
-			redirect('home');
+			redirect('');
 		}
 	}
 
@@ -130,18 +134,18 @@ class Dashboards extends CI_Controller {
 	// // 	}
 	// // }
 
-	// public function profile($id) {
-	// 	if($this->session->userdata('loggedin')) {
-	// 		$this->load->model('DashboardModel');
-	// 		$display['user_info'] = $this->DashboardModel->get_user($id);
-	// 		$display['errors'] = $this->session->flashdata('errors');
-	// 		$display['messages'] = $this->DashboardModel->profile($id);
-	// 		$display['comments'] = $this->DashboardModel->get_comments($id);
-	// 		$this->load->view('profile', $display);
-	// 	} else {
-	// 		redirect('');
-	// 	}
-	// }
+	public function profile($id) {
+		if($this->session->userdata('loggedin')) {
+			$this->load->model('DashboardModel');
+			$display['user_info'] = $this->DashboardModel->get_user($id);
+			$display['errors'] = $this->session->flashdata('errors');
+			$display['messages'] = $this->DashboardModel->profile($id);
+			$display['comments'] = $this->DashboardModel->get_comments($id);
+			$this->load->view('profile', $display);
+		} else {
+			redirect('');
+		}
+	}
 
 	// // public function edit($id) {
 	// // 	if(!empty($this->session->userdata('admin'))) {

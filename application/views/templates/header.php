@@ -31,8 +31,8 @@
 	  			<ul class="nav navbar-nav">
 	  			<!-- If user is logged in show dashboard and profile instead of home -->
 <?php 			if(!empty($loggedin)) { ?>
-    				<li><a href="/dashboard">Dashboard<span class="sr-only">(current)</span></a></li>
-    				<li><a href="/edit_profile">Profile<span class="sr-only">(current)</span></a></li>
+    				<li><a href="<?php echo base_url('/dashboard'); ?>">Dashboard<span class="sr-only">(current)</span></a></li>
+    				<li><a href="<?php echo base_url('/edit_profile'); ?>">Profile<span class="sr-only">(current)</span></a></li>
 <?php 			} else { ?>
 	    			<li><a href="/">Home<span class="sr-only">(current)</span></a></li>
 <?php 			} ?>
@@ -40,7 +40,7 @@
 	 			<!-- if user is logged in show log out option -->
 	  			<ul class="nav navbar-nav navbar-right">
 <?php 			if(!empty($loggedin)) { ?>
-					<li><a href="/logout">Log Out</a></li>
+					<li><a href="<?php echo base_url('/logout'); ?>">Log Out</a></li>
 <?php 			} else { ?>
 	    			<li><a href="signin">Sign In</a></li>
 <?php 			} ?>
