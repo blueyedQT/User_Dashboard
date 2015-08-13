@@ -16,7 +16,7 @@
 <?php 		foreach ($users as $user) { ?>
 				<tr>
 					<td><?php echo $user['id'] ?></td>
-					<td><a href="/profile/<?php echo $user['id'] ?>"><?php echo $user['user_name'] ?></a></td>
+					<td><a href="profile/<?php echo $user['id'] ?>"><?php echo $user['user_name'] ?></a></td>
 					<td><?php echo $user['email'] ?></td>
 					<td><?php echo $user['created'] ?></td>
 					<td><?php echo $user['level'] ?></td>

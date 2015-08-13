@@ -10,8 +10,8 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
 	<script src="assets/js/bootstrap.min.js"></script>
 
-	<link rel="stylesheet" type="text/css" href="assets/css/styles.css">
-	<!--<link rel="stylesheet" type="text/css" href="<?php echo base_url('/assets/css/styles.css'); ?>"> --><!-- Should I direct on full domain or just file path? -->
+	<!-- <link rel="stylesheet" type="text/css" href="assets/css/styles.css"> -->
+	<link rel="stylesheet" type="text/css" href="<?php echo base_url('/assets/css/styles.css'); ?>"><!-- Should I direct on full domain or just file path? -->
 
 </head>
 <body>

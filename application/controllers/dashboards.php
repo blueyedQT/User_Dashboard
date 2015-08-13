@@ -134,18 +134,18 @@ class Dashboards extends CI_Controller {
 	// // 	}
 	// // }
 
-	// public function profile($id) {
-	// 	if($this->session->userdata('loggedin')) {
-	// 		$this->load->model('DashboardModel');
-	// 		$display['user_info'] = $this->DashboardModel->get_user($id);
-	// 		$display['errors'] = $this->session->flashdata('errors');
-	// 		$display['messages'] = $this->DashboardModel->profile($id);
-	// 		$display['comments'] = $this->DashboardModel->get_comments($id);
-	// 		$this->load->view('profile', $display);
-	// 	} else {
-	// 		redirect('');
-	// 	}
-	// }
+	public function profile($id) {
+		if($this->session->userdata('loggedin')) {
+			$this->load->model('DashboardModel');
+			$display['user_info'] = $this->DashboardModel->get_user($id);
+			$display['errors'] = $this->session->flashdata('errors');
+			$display['messages'] = $this->DashboardModel->profile($id);
+			$display['comments'] = $this->DashboardModel->get_comments($id);
+			$this->load->view('profile', $display);
+		} else {
+			redirect('');
+		}
+	}
 
 	// // public function edit($id) {
 	// // 	if(!empty($this->session->userdata('admin'))) {
