@@ -253,15 +253,15 @@ class Dashboards extends CI_Controller {
 	// 	} 
 	// }
 
-	// public function delete_user($id) {
-	// 	if($this->session->userdata('admin')) {
-	// 		$this->load->model('DashboardModel');
-	// 		$this->DashboardModel->delete_user($id);
-	// 		redirect('dashboard/admin');
-	// 	} else {
-	// 		redirect('');
-	// 	}
-	// }
+	public function delete_user($id) {
+		if($this->session->userdata('admin')) {
+			$this->load->model('DashboardModel');
+			$this->DashboardModel->delete_user($id);
+			redirect('admin');
+		} else {
+			redirect('');
+		}
+	}
 
 	// public function message($id) {
 	// 	$this->form_validation->set_rules('message', 'Message', 'required|min_length[6]');
