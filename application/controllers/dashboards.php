@@ -57,8 +57,8 @@ class Dashboards extends CI_Controller {
 
 	public function logout() {
 		$this->session->sess_destroy();
-		$this->session->set_userdata('');
-		// $this->session->set_userdata('admin', FALSE);
+		$this->session->set_userdata('loggedin', FALSE);
+		$this->session->set_userdata('admin', FALSE);
 		// var_dump($this->session->all_userdata());
 		// die('Logout');
 		redirect('');
@@ -153,6 +153,8 @@ class Dashboards extends CI_Controller {
 	}
 
 	public function edit($id) {
+		var_dump($this->session->all_userdata());
+		die('Edit');
 		if($this->session->userdata('admin')) {
 			$this->load->model('DashboardModel');
 			$user_info = $this->DashboardModel->get_user($id);
