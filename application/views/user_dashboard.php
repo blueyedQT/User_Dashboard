@@ -1,5 +1,6 @@
 	<div class="container">
 		<div class="row">
+			<p>Welcome <?php echo $name ?></p>
 			<h1 class="col-md-4">All Users</h1>
 		</div>
 		<table class="table table-striped table-bordered">

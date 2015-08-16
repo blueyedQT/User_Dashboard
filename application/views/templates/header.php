@@ -36,7 +36,7 @@
 	 			<!-- if user is logged in show log out option -->
 	  			<ul class="nav navbar-nav navbar-right">
 <?php 			if(!empty($loggedin)) { ?>
-					<li><a href="<?php echo base_url('/logout'); ?>">Log Out</a></li>
+					<li><a href="<?php echo base_url('/logout'); ?>"><?php echo $name; ?>, Log Out</a></li>
 <?php 			} else { ?>
 	    			<li><a href="signin">Sign In</a></li>
 <?php 			} ?>

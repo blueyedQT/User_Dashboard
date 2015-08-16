@@ -5,9 +5,9 @@ class Dashboards extends CI_Controller {
 	public function __construct(){
 		parent::__construct();
 		// $this->session->sess_destroy();
-
 		$display['loggedin'] = $this->session->userdata('loggedin');
 		$display['user'] = $this->session->userdata('id');
+		$display['name'] = $this->session->userdata('name');
 		$this->load->view('templates/header', $display);
 	}
 
@@ -43,8 +43,9 @@ class Dashboards extends CI_Controller {
 				if(crypt($password, $user['password']) == $user['password']) {
 					$this->session->set_userdata('id', $user['id']);
 					$this->session->set_userdata('loggedin', TRUE);
-					if($user['user_level'] > 1) {
-						$this->session->set_userdata('admin', $user['user_level']);
+					$this->session->set_userdata('name', $user['first_name']);
+					if($user['user_level'] == "2") {
+						$this->session->set_userdata('admin', TRUE);
 					}
 					redirect('dashboard');
 				}
@@ -56,10 +57,10 @@ class Dashboards extends CI_Controller {
 
 	public function logout() {
 		$this->session->sess_destroy();
-		$this->session->set_userdata('loggedin', FALSE);
+		$this->session->set_userdata('');
+		// $this->session->set_userdata('admin', FALSE);
 		// var_dump($this->session->all_userdata());
 		// die('Logout');
-
 		redirect('');
 	}
 
@@ -71,13 +72,15 @@ class Dashboards extends CI_Controller {
 		$this->load->view('register', $display);
 	}
 
-	// public function add_new() {
-	// 	if(!empty($this->session->userdata('admin'))) {
-	// 		$this->load->view('add_user');
-	// 	} else {
-	// 		redirect('register');
-	// 	}
-	// }
+	public function add_new() {
+		var_dump($this->session->all_userdata());
+		die('Made it to add new');
+		if($this->session->userdata('admin')) {
+			$this->load->view('add_user');
+		} else {
+			redirect('register');
+		}
+	}
 
 	public function register_user() {
 		$this->form_validation->set_rules('email', 'Email Address', 'required|valid_email|is_unique[users.email]');
@@ -114,8 +117,10 @@ class Dashboards extends CI_Controller {
 
 	public function dashboard() {
 		if($this->session->userdata('admin')) {
-			redirect('/dashboard/admin', $display);
-		} else if($this->session->userdata('id')) {
+			redirect('admin');
+			// redirect('/dashboard/admin', $display);
+		} else 
+		if($this->session->userdata('id')) {
 			$this->load->Model('DashboardModel');
 			$display['users'] = $this->DashboardModel->get_all_users();
 			$this->load->view('user_dashboard', $display);
@@ -124,15 +129,15 @@ class Dashboards extends CI_Controller {
 		}
 	}
 
-	// // public function admin() {
-	// // 	if(!empty($this->session->userdata('admin'))) {
-	// // 		$this->load->Model('DashboardModel');
-	// // 		$display['users'] = $this->DashboardModel->get_all_users();
-	// // 		$this->load->view('admin_dashboard', $display);
-	// // 	} else {
-	// // 		redirect('');
-	// // 	}
-	// // }
+	public function admin() {
+		if($this->session->userdata('admin')) {
+			$this->load->Model('DashboardModel');
+			$display['users'] = $this->DashboardModel->get_all_users();
+			$this->load->view('admin_dashboard', $display);
+		} else {
+			redirect('');
+		}
+	}
 
 	public function profile($id) {
 		if($this->session->userdata('loggedin')) {
@@ -147,21 +152,23 @@ class Dashboards extends CI_Controller {
 		}
 	}
 
-	// // public function edit($id) {
-	// // 	if(!empty($this->session->userdata('admin'))) {
-	// // 		$this->load->model('DashboardModel');
-	// // 		$user_info = $this->DashboardModel->get_user($id);
-	// // 		$admin_levels = $this->DashboardModel->get_admin_levels();
-	// // 		$display['user_info'] = $user_info;
-	// // 		$display['errors'] = $this->session->flashdata('errors');
-	// // 		$display['admin_levels'] = $admin_levels;
-	// // 		$display['errors_password'] = $this->session->flashdata('errors_password');
-	// // 		$display['message'] = $this->session->flashdata('message');
-	// // 		$this->load->view('edit_user', $display);
-	// // 	} else {
-	// // 		redirect('edit_profile');
-	// // 	}
-	// // }
+	public function edit($id) {
+		if($this->session->userdata('admin')) {
+			$this->load->model('DashboardModel');
+			$user_info = $this->DashboardModel->get_user($id);
+			$admin_levels = $this->DashboardModel->get_admin_levels();
+			$display['user_info'] = $user_info;
+			$display['errors'] = $this->session->flashdata('errors');
+			$display['admin_levels'] = $admin_levels;
+			$display['errors_password'] = $this->session->flashdata('errors_password');
+			$display['message'] = $this->session->flashdata('message');
+			$this->load->view('edit_user', $display);
+			var_dump($display);
+			die('yies');
+		} else {
+			redirect('edit_profile');
+		}
+	}
 
 	public function edit_profile() {
 		$id = $this->session->userdata('id');
@@ -203,7 +210,7 @@ class Dashboards extends CI_Controller {
 		}
 		if($result > 0) {
 			$message = 'You have sucessfully edited the personal information.';
-			$this->session->set_flashdata('message', $message);
+			$this->session->set_flashdata('message', 'You have sucessfully edited the personal information.');
 		}
 		redirect_back();
 	}

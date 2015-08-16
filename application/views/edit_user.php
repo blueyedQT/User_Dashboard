@@ -1,13 +1,13 @@
 	<div class="container">
 		<h1>Edit User #<?php echo $user_info['id'] ?></h1>
-<?php 	if(!empty($message)) { ?>
+<?php 	if($message) { ?>
 			<div class="alert alert-info" role="alert">
 				<span class="sr-only">Message:</span>
 				<?php echo $message ?>
 			</div>
 <?php	} ?>
 		<div class="row">
-			<form role="form" class="col-md-4 multiple" action="/edit_user" method="post">
+			<form role="form" class="col-md-4 multiple" action="<?php echo base_url('/edit_user'); ?>" method="post">
 				<legend>Edit Information</legend>
 				<div class="form-group">
 <?php 	if(!empty($errors)) { ?>
@@ -41,7 +41,7 @@
 				<input type="hidden" name="id" value="<?php echo $user_info['id'] ?>">
 				<button class="btn btn-primary" type="submit" name="submit">Save</button>
 			</form>
-			<form role="form" class="col-md-4 col-md-offset-2 multiple" action="/edit_password" method="post">
+			<form role="form" class="col-md-4 col-md-offset-2 multiple" action="<?php echo base_url('/edit_password'); ?>" method="post">
 				<legend>Change Password</legend>
 <?php 		if(!empty($errors_password)) { ?>
 				<div class="alert alert-danger" role="alert">
