@@ -163,8 +163,8 @@ class Dashboards extends CI_Controller {
 			$display['errors_password'] = $this->session->flashdata('errors_password');
 			$display['message'] = $this->session->flashdata('message');
 			$this->load->view('edit_user', $display);
-			var_dump($display);
-			die('yies');
+			// var_dump($display);
+			// die('yies');
 		} else {
 			redirect('edit_profile');
 		}
@@ -210,7 +210,7 @@ class Dashboards extends CI_Controller {
 		}
 		if($result > 0) {
 			$message = 'You have sucessfully edited the personal information.';
-			$this->session->set_flashdata('message', 'You have sucessfully edited the personal information.');
+			$this->session->set_flashdata('message', $message);
 		}
 		redirect_back();
 	}

@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://kursodevelopment.com/user_dashboard';
+$config['base_url']	= 'http://kursodevelopment.com/user_dashboard/';
 
 /*
 |--------------------------------------------------------------------------
@@ -328,7 +328,7 @@ $config['compress_output'] = FALSE;
 | regarding date handling.
 |
 */
-$config['time_reference'] = 'local';
+$config['time_reference'] = 'gmt';
 
 
 /*

@@ -7,7 +7,7 @@
 			</div>
 <?php	} ?>
 		<div class="row">
-			<form role="form" class="col-md-4 multiple" action="<?php echo base_url('/edit_user'); ?>" method="post">
+			<form role="form" class="col-md-4 multiple" action="../edit_user" method="post">
 				<legend>Edit Information</legend>
 				<div class="form-group">
 <?php 	if(!empty($errors)) { ?>
