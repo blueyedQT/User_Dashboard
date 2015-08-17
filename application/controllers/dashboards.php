@@ -153,8 +153,8 @@ class Dashboards extends CI_Controller {
 	}
 
 	public function edit($id) {
-		var_dump($this->session->all_userdata());
-		die('Edit');
+		// var_dump($this->session->all_userdata());
+		// die('Edit');
 		if($this->session->userdata('admin')) {
 			$this->load->model('DashboardModel');
 			$user_info = $this->DashboardModel->get_user($id);
